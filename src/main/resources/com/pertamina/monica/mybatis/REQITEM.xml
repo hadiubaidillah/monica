@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pertamina.monica.mapper.REQITEMMapper">
+
+	<resultMap type="REQITEM" id="REQITEM_map" autoMapping="true">
+		<id property="LINENUM" column="LINENUM" />
+		<!-- <association property="POTEXT" resultMap="com.pertamina.monica.mapper.REQITEMMapper.REQITEM_map" /> -->
+	</resultMap>
+
+	<select id="getNewId" resultType="string" >
+		SELECT IF(LENGTH(newid) > 2, newid, lpad(newid, 2, 0)) newid FROM (SELECT IFNULL(max(LINENUM)+1,1) AS newid FROM REQITEM) a
+	</select>
+
+	<sql id="qry">
+		SELECT * FROM REQITEM
+	</sql>
+
+	<select id="getCount" resultType="long" parameterType="string" >
+		SELECT COUNT(*) AS count FROM (<include refid="qry"/> GROUP BY LINENUM) AS t
+		<if test="clause != null">WHERE ${clause}</if>
+	</select>
+
+	<select id="getList" resultMap="REQITEM_map" parameterType="param">
+	SELECT * FROM (<include refid="qry"/>) AS t
+	<if test="clause != null"> WHERE ${clause} </if>
+	<if test="order != null"> ORDER BY ${order} </if>
+	<if test="order == null"> ORDER BY LINENUM </if>
+	<if test="limit != null"> LIMIT ${limit} </if>
+	<if test="offset != null"> OFFSET ${offset} </if>
+	</select>
+
+	<select id="getEntity" resultMap="REQITEM_map" parameterType="string">
+		SELECT * FROM (<include refid="qry"/>) AS qry WHERE LINENUM=#{id}
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO REQITEM (
+		LINENUM,
+		COMPANY,
+		REQUESTEDBY,
+		REQUESTTYPE,
+		OLDITEMNUM,
+		MAINGROUP,
+		NOUNMODIFIER,
+		CODING,
+		SHORTTEXT,
+		ISSPAREPART,
+		POTEXT,
+		PURCHASINGGROUP,
+		MANUFACTURER,
+		PARTNUMBER,
+		UOM,
+		MATTYPE,
+		PROFITCENTER,
+		LABOFFICE,
+		STATUS,
+		GAMBAR
+		) VALUES (
+		#{LINENUM:NUMERIC},
+		#{COMPANY:VARCHAR},
+		#{REQUESTEDBY:VARCHAR},
+		#{REQUESTTYPE:VARCHAR},
+		#{OLDITEMNUM:VARCHAR},
+		#{MAINGROUP:VARCHAR},
+		#{NOUNMODIFIER:VARCHAR},
+		#{CODING:VARCHAR},
+		#{SHORTTEXT:VARCHAR},
+		#{ISSPAREPART:VARCHAR},
+		#{POTEXT:VARCHAR},
+		#{PURCHASINGGROUP:VARCHAR},
+		#{MANUFACTURER:VARCHAR},
+		#{PARTNUMBER:VARCHAR},
+		#{UOM:VARCHAR},
+		#{MATTYPE:VARCHAR},
+		#{PROFITCENTER:VARCHAR},
+		#{LABOFFICE:VARCHAR},
+		#{STATUS:VARCHAR},
+		#{GAMBAR:VARCHAR}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE REQITEM SET
+		LINENUM=#{LINENUM:NUMERIC},
+		COMPANY=#{COMPANY:VARCHAR},
+		REQUESTEDBY=#{REQUESTEDBY:VARCHAR},
+		REQUESTTYPE=#{REQUESTTYPE:VARCHAR},
+		OLDITEMNUM=#{OLDITEMNUM:VARCHAR},
+		MAINGROUP=#{MAINGROUP:VARCHAR},
+		NOUNMODIFIER=#{NOUNMODIFIER:VARCHAR},
+		CODING=#{CODING:VARCHAR},
+		SHORTTEXT=#{SHORTTEXT:VARCHAR},
+		ISSPAREPART=#{ISSPAREPART:VARCHAR},
+		POTEXT=#{POTEXT:VARCHAR},
+		PURCHASINGGROUP=#{PURCHASINGGROUP:VARCHAR},
+		MANUFACTURER=#{MANUFACTURER:VARCHAR},
+		PARTNUMBER=#{PARTNUMBER:VARCHAR},
+		UOM=#{UOM:VARCHAR},
+		MATTYPE=#{MATTYPE:VARCHAR},
+		PROFITCENTER=#{PROFITCENTER:VARCHAR},
+		LABOFFICE=#{LABOFFICE:VARCHAR},
+		STATUS=#{STATUS:VARCHAR},
+		GAMBAR=#{GAMBAR:VARCHAR}
+		WHERE KIMAP=#{id}
+	</update>
+	
+</mapper>

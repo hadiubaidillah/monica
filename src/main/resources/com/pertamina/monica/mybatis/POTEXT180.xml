@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pertamina.monica.mapper.POTEXT180Mapper">
+
+	<resultMap type="POTEXT180" id="POTEXT180_map">
+		<id property="KIMAP" column="KIMAP" />
+		<result property="OBJECTTYPE" column="OBJECTTYPE" />
+		<result property="VIEWTYPE" column="VIEWTYPE" />
+		<result property="POTEXT" column="POTEXT" />
+	</resultMap>
+
+	<select id="getNewId" resultType="string" >
+		SELECT IF(LENGTH(newid) > 2, newid, lpad(newid, 2, 0)) newid FROM (SELECT IFNULL(max(KIMAP)+1,1) AS newid FROM POTEXT180) a
+	</select>
+
+	<sql id="qry">
+		SELECT * FROM POTEXT180
+	</sql>
+
+	<select id="getCount" resultType="long" parameterType="string" >
+		SELECT COUNT(*) AS count FROM (<include refid="qry"/> GROUP BY KIMAP) AS t
+		<if test="clause != null">WHERE ${clause}</if>
+	</select>
+
+	<select id="getList" resultMap="POTEXT180_map" parameterType="param">
+	SELECT * FROM (<include refid="qry"/>) AS t
+	<if test="clause != null"> WHERE ${clause} </if>
+	<if test="order != null"> ORDER BY ${order} </if>
+	<if test="order == null"> ORDER BY KIMAP </if>
+	<if test="limit != null"> LIMIT ${limit} </if>
+	<if test="offset != null"> OFFSET ${offset} </if>
+	</select>
+
+	<select id="getEntity" resultMap="POTEXT180_map" parameterType="string">
+		SELECT * FROM (<include refid="qry"/>) AS qry WHERE KIMAP=#{id}
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO POTEXT180 (
+		OBJECTTYPE,
+		KIMAP,
+		VIEWTYPE,
+		POTEXT
+		) VALUES (
+		#{OBJECTTYPE:VARCHAR},
+		#{KIMAP:NUMERIC},
+		#{VIEWTYPE:VARCHAR},
+		#{POTEXT:VARCHAR}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE POTEXT180 SET
+		OBJECTTYPE=#{OBJECTTYPE:VARCHAR},
+		KIMAP=#{KIMAP:NUMERIC},
+		VIEWTYPE=#{VIEWTYPE:NUMERIC},
+		POTEXT=#{POTEXT:VARCHAR}
+		WHERE KIMAP=#{id}
+	</update>
+	
+</mapper>

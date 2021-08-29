@@ -1,0 +1,497 @@
+* {
+	color: #202124;
+}
+
+a {
+	text-decoration: none;
+	color: #000;
+}
+
+small {
+	font-size: 12px;
+}
+
+cite {
+	font-style: normal;
+	font-size: 14px;
+	font-family: arial, sans-serif;
+}
+
+em {
+	font-style: normal;
+	font-weight: bold;
+}
+
+.rounded-3 {
+	border-radius: 7px !important;
+}
+
+.fixed-top {
+	height: 80px;
+	align-items: center;
+	right: 0;
+	left: 0;
+	background: #fff;
+	z-index: 10;
+}
+
+.searchInput {
+	height: 48px;
+	box-shadow: 0 1px 5px 0 #d6d6d6;
+}
+
+.searchInput:hover {
+	box-shadow: 1px 1px 6px 1px #c6c6c6;
+}
+
+.searchInput i {
+	color: #4285f4;
+}
+
+.fa-microphone {
+	line-height: 30px;
+}
+
+.nav {
+	font-size: 14px;
+
+}
+
+.menu i, .menu span, .menu a, .nav .tools {
+	color: #5f6368;
+}
+
+.menu a:hover {
+	text-decoration: none !important;
+}
+
+.nav .tools {
+	font-size: 14px;
+	padding: 4px 10px 4px 10px;
+	border: 1px solid transparent;
+}
+
+.nav .tools:focus {
+	outline: 0;
+	box-shadow: none;
+}
+
+.tools-active {
+	background: #f1f1f1;
+	border: 1px solid #ddd !important;
+}
+
+.menu a.active i,
+.menu a.active span {
+	color: #4285f4;
+}
+
+.menu a.active:after {
+	content: "";
+	background-color: #4285f4;
+	position: absolute;
+	height: 3px;
+	width: 39px;
+	bottom: 0;
+	left: 15px;
+}
+
+.webDescription {
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+.webDescription span,
+.webDescription em,
+.abstract span,
+.abstract em {
+	color: #5f6368;
+}
+
+.websiteTitle h5 {
+	color: #1a0dab;
+	font-weight: 400;
+	margin-bottom: 4px;
+}
+
+.websiteTitle h5:hover {
+	text-decoration: underline;
+}
+
+.websiteTitle .btn-group {
+	margin-top: -3px;
+}
+
+.la-star {
+	color: #d7d7d7;
+	font-size: 14px;
+}
+
+.checked {
+	color: rgb(255, 207, 0);
+}
+
+.slider .col-4.card {
+	padding: 0;
+}
+
+.video {
+	position: relative;
+}
+
+.videos {
+	position: relative;
+}
+
+.playCard {
+	padding: 13px 0;
+}
+
+.videoYouTube {
+	height: 100%;
+	position: relative;
+}
+
+.videoYouTube:before {
+	content: "3:42";
+	position: absolute;
+	bottom: 5px;
+	left: 20px;
+	font-size: 12px;
+	color: #fff;
+}
+
+.videoYouTube:after {
+	content: "PREVIEW";
+	position: absolute;
+	bottom: 5px;
+	right: 10px;
+	font-size: 12px;
+	color: rgba(255, 255, 255, 0.4);
+	font-weight: 500;
+}
+
+.play {
+	position: absolute;
+	color: rgba(255, 255, 255, 0.8);
+	font-size: 30px;
+	top: 20px;
+	right: 40%;
+}
+
+button.viewMore {
+	position: absolute;
+	bottom: -16px;
+	left: 28%;
+	line-height: 32px;
+	background: #fff;
+	border: 1px solid #dee2e6;
+}
+
+.viewMore i {
+	position: absolute;
+	left: 14px;
+	top: 9px;
+}
+
+.accordion-button:not(.collapsed) {
+	color: unset;
+	background: unset;
+	border: unset;
+}
+
+.accordionTitle {
+	margin-bottom: 0;
+	padding-bottom: 12px;
+}
+
+.accordion-button {
+	padding: 12px 10px 12px 0;
+}
+
+.accordion-body {
+	padding-right: 10px;
+	padding-left: 0;
+}
+
+.accordionDescription {
+	margin-bottom: 20px;
+}
+
+.accordion-body .websiteTitle {
+	margin-bottom: 30px;
+}
+
+.review {
+	font-family: arial, sans-serif;
+}
+
+.sameMovie {
+	width: 72px;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+
+.feedback {
+	z-index: 1;
+	right: 0;
+	font-size: 12px;
+	bottom: -6px;
+	padding-left: 11px;
+	background: #fff;
+}
+
+.slider .card {
+	border-radius: 6px;
+	overflow: hidden;
+}
+
+.slider .cardFooter {
+	padding: 0 15px 15px 15px;
+}
+
+.moreVideo {
+	background: #fff;
+	z-index: 1;
+	right: -16px;
+	bottom: 50%;
+	text-align: center;
+	padding: 6px;
+	width: 40px;
+	height: 40px;
+}
+
+.moreVideo i, .result i {
+	color: #70757a;
+}
+
+.moreVideo:hover i {
+	color: #202124;
+}
+
+.relatedSearch button, .relatedSearch a {
+	background: #f1f3f4;
+	display: flex;
+	border: none;
+	font-size: 17px;
+	align-items: center;
+	height: 50px;
+}
+
+.relatedSearch .la-search {
+	transform: scaleX(-1);
+	padding: 0 24px;
+	font-size: 18px;
+}
+
+/* .page-link {
+	border: none;
+	padding: 0 2px;
+} */
+
+.googlePagination .page-item {
+	font-weight: 700;
+	font-size: 22px;
+	font-family: revert;
+
+}
+
+.googlePagination .page-link {
+	color: rgb(255, 207, 0);
+}
+
+.gallery {
+	height: 186px;
+	display: grid;
+	grid-template-columns: repeat(9, 1fr);
+	grid-template-rows: repeat(2, 1fr);
+	grid-column-gap: 1px;
+	grid-row-gap: 1px;
+}
+
+.moreImg {
+	right: 0;
+	bottom: 0;
+	padding: 6px;
+	align-items: center;
+	border-radius: 6px 0 0 0;
+	background: rgba(0, 0, 0, 0.6);
+}
+
+.moreImg:hover {
+	background: #000;
+}
+
+.moreImg i, .moreImg span {
+	color: #fff;
+}
+
+.userScore i {
+	color: rgba(0, 0, 0, .38);
+}
+
+.userScore a:hover i {
+	color: #202124;
+	border-color: #202124 !important;
+}
+
+.progress {
+	width: calc(100% - 16px);
+	height: 9px !important;
+	background: #f1f3f4 !important;
+	border-radius: 5px !important;
+}
+
+.moreReview i {
+	color: #70757a;
+}
+
+.claimPanel {
+	width: fit-content;
+}
+
+.shield svg {
+	width: 16px;
+	height: 16px;
+}
+
+.result2 {
+	height: 40px;
+	width: 40px;
+}
+
+.circle {
+	display: inline-block;
+	background: #70757a;
+	width: 10px;
+	height: 10px;
+}
+
+.pageItem {
+	text-align: center;
+	padding: 0;
+}
+
+.pageItem a {
+	height: 55px;
+	justify-content: space-between;
+}
+
+.gTD {
+	width: 33px;
+	position: relative;
+}
+
+.nextPageLogo {
+	/* width: 90px;
+	height: 25px; */
+}
+
+.prevPage a span:first-child {
+	/* background: url(../images/monica.jpeg) 0 0;
+	background-size: 152px;
+	width: 43px;
+	height: 63px;
+	position: absolute;
+	top: -12px;
+	left: -10px; */
+}
+
+.prevLogo {
+	background: url(../images/monica.jpeg) 0 0;
+	background-size: 152px;
+	width: 41px;
+	height: 63px;
+	position: absolute;
+	top: -12px;
+	left: -41px;
+}
+
+.prevPage a span:last-child {
+	/* top: 5px;
+	left: -100px; */
+}
+
+.prev {
+	font-size: 14px;
+	margin-top: 46px;
+	margin-left: -110px;
+}
+
+.pageItem a span:first-child {
+	background: url("../images/monica.jpeg") -40.5px -18px;
+	background-size: 152px;
+	width: 25px;
+	height: 30px;
+}
+
+.active a span:first-child {
+	background: url("../images/monica-active.jpg") -40.5px -18px;
+	background-size: 152px;
+	width: 25px;
+	height: 30px;
+}
+
+.nextPageLogo {
+	width: 90px;
+	height: 25px;
+}
+
+.nextPageLogo span:last-child {
+	top: 5px;
+	left: 125px;
+}
+
+.fa-chevron-left, .prev, .fa-chevron-right, .next, .pageItem a span:last-child {
+	color: #4285f4;
+}
+
+.prev:hover, .next:hover, .pageItem a span:last-child:hover {
+	text-decoration: underline;
+}
+
+.nextLogo {
+	background: url(../images/monica.jpeg) -65px 0px;
+	background-size: 152px;
+	width: 85px;
+	height: 63px;
+	position: absolute;
+	top: -13px;
+}
+
+.pageItem a span:last-child {
+	font-size: 14px;
+}
+
+.next {
+	font-size: 14px;
+	margin-top: 19px;
+	margin-left: 115px;
+}
+
+
+/** Images **/
+
+#list .col a.card:hover {
+	text-decoration: underline;
+}
+
+#list .col a.card:hover img {
+	box-shadow: 0 0px 1rem rgba(0,0,0,.3)!important;
+}
+
+#list .col .card .card-body .card-text {
+	color: #3c4043;
+}
+
+.lcl_fade_oc.lcl_pre_show #lcl_overlay,
+.lcl_fade_oc.lcl_pre_show #lcl_window,
+.lcl_fade_oc.lcl_is_closing #lcl_overlay,
+.lcl_fade_oc.lcl_is_closing #lcl_window {
+	opacity: 0 !important;
+}
+.lcl_fade_oc.lcl_is_closing #lcl_overlay {
+	-webkit-transition-delay: .15s !important; 
+	transition-delay: .15s !important;
+}
