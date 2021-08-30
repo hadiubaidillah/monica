@@ -81,7 +81,7 @@
 										<div class="col-3 ps-0" style="width: 18.5%;">
 											<button type="submit" class="btn btn-primary px-2" style="font-size: 12px; padding-top: .55rem; padding-bottom: .55rem">
 												<span class="d-none d-lg-block text-white">Search by image</span>
-												<span class="d-block d-lg-none">Go</span>
+												<span class="d-block d-lg-none text-white">Go</span>
 											</button>
 										</div>
 									</div>

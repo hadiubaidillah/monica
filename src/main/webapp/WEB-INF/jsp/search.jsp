@@ -5,9 +5,6 @@
 	<%@include file="inc/head.jsp"%>
 	<link rel="stylesheet" href="${contextPath}/css/search.css">
 	<title>${image ne null ? 'Image' : term} - Monica Search</title>
-	<style>
-	.menu a.active:after{width: 67px !important;}
-	</style>
 </head>
 <body>
 

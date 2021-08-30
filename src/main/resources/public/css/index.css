@@ -87,6 +87,12 @@ body {
 	background-size: cover;
 }
 
+@media only screen and (max-width: 600px) {
+	.main-container__image span {
+		zoom: 75%;
+	}
+}
+
 .main-container__searchbar {
 	width: 90%;
 	min-width: 288px;
