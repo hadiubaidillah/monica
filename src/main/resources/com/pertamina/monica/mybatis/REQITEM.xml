@@ -33,7 +33,7 @@
 	</select>
 
 	<select id="getEntity" resultMap="REQITEM_map" parameterType="string">
-		SELECT * FROM (<include refid="qry"/>) AS qry WHERE LINENUM=#{id}
+		SELECT * FROM (<include refid="qry"/>) AS qry WHERE LINENUM=#{LINENUM}
 	</select>
 	
 	<insert id="insert">
@@ -104,7 +104,7 @@
 		LABOFFICE=#{LABOFFICE:VARCHAR},
 		STATUS=#{STATUS:VARCHAR},
 		GAMBAR=#{GAMBAR:VARCHAR}
-		WHERE KIMAP=#{id}
+		WHERE LINENUM=#{LINENUM}
 	</update>
 	
 </mapper>

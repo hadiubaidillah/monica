@@ -1,0 +1,5 @@
+.modal-backdrop { background-color: none !important; width: 100% !important; height: 100% !important; }
+.menu-sidebar__content { height: 90% !important; }
+body, html, .page-container, #wrapper { height: 100%; background: #E5E5E5; }
+body { zoom: 0.80; zoom: 80%; }
+.breadcrumb { border: 1px solid #d8d8d8; }

@@ -24,7 +24,6 @@ import com.pertamina.monica.domain.REQITEM;
 import com.pertamina.monica.helper.Pagination;
 import com.pertamina.monica.helper.QueryParameter;
 import com.pertamina.monica.helper.ResponseWrapper;
-import com.pertamina.monica.helper.ResponseWrapperList;
 import com.pertamina.monica.helper.ResponseWrapperPagination;
 import com.pertamina.monica.mapper.REQITEMMapper;
 import com.pertamina.monica.repo.StorageService;
@@ -51,7 +50,8 @@ public class REQITEMController {
 			@RequestParam("min") Optional<String> min,
 			@RequestParam("max") Optional<String> max,
 			@RequestParam("limit") Optional<Integer> limit,
-			@RequestParam("page") Optional<Integer> page
+			@RequestParam("page") Optional<Integer> page,
+			@RequestParam("is-pagination-next") Optional<String> isPaginationNext
 			)throws Exception {
 		QueryParameter param = new QueryParameter();
 		param.setClause(param.getClause() + " AND ( ");
@@ -61,25 +61,24 @@ public class REQITEMController {
 		param.setClause(param.getClause() + REQITEM.COLUMN_COMPANY + " LIKE '%"+term+"%' ");
 		param.setClause(param.getClause() + " ) ");
 		
+		final long count = reqItemMapper.getCount(param);
+		
 		if(limit.isPresent()) { param.setLimit(limit.get()); }
 		if(page.isPresent()) { int offset = (page.get()-1)*param.getLimit(); param.setOffset(offset); }
 		else { page = Optional.of(1); }
 		
 		ResponseWrapperPagination resp = new ResponseWrapperPagination();
-		resp.setPagination(new Pagination(param.getLimit(), page.get(), reqItemMapper.getCount(param)));
-		List<REQITEM> data = reqItemMapper.getList(param);
+		resp.setPagination(new Pagination(param.getLimit(), page.get(), count));
+		final List<REQITEM> data = reqItemMapper.getList(param);
 		resp.setData(data);
 		
-		/*if(imageUrl.isPresent()) {
-			resp.setImage(imageUrl.get());
-		}
-		if(imageUpload.isPresent() && !imageUpload.get().isEmpty()) {
-			final long date = new Date().getTime();
-			final String ext = FilenameUtils.getExtension(imageUpload.get().getOriginalFilename());
-			final String namaFile = "tmp-"+date+"."+ext;
-			storageService.store(imageUpload.get(), namaFile);
-			resp.setImage(namaFile);
-		}*/
+		resp.setCount(count);
+		resp.setNextMore(data.size()+((page.get()-1)*param.getLimit()) < resp.getCount());
+		
+		String qryString = "?page="+(page.get()+1);
+		if(limit.isPresent()) { qryString += "&limit="+limit.get(); }
+		resp.setNextPageNumber(page.get()+1);
+		resp.setNextPage(request.getRequestURL().toString()+qryString);
 		
 		return resp;
 	}
@@ -153,7 +152,7 @@ public class REQITEMController {
 		resp.setNextPage(request.getRequestURL().toString()+qryString);
 		
 		return resp;
-	}
+	}*/
 
 	@RequestMapping(value="/save", method = RequestMethod.POST, produces = "application/json")
 	@Transactional(rollbackFor=Exception.class, propagation = Propagation.REQUIRED)
@@ -183,10 +182,10 @@ public class REQITEMController {
 		
 		ResponseWrapper resp = new ResponseWrapper();
 		
-		REQITEM data = new REQITEM(reqItemMapper.getNewId());
+		REQITEM data = new REQITEM(Long.parseLong(reqItemMapper.getNewId()));
 		if(LINENUM.isPresent()) {
 			data.setLINENUM(LINENUM.get());
-			data = reqItemMapper.getEntity(LINENUM.get());
+			data = reqItemMapper.getEntity(String.valueOf(LINENUM.get()));
 		}
 		if(data == null) {
 			resp.setCode(HttpStatus.BAD_REQUEST.value());
@@ -239,7 +238,7 @@ public class REQITEMController {
 
 	@RequestMapping(value="/{id}/delete", method = RequestMethod.POST, produces = "application/json")
 	@Transactional(rollbackFor=Exception.class, propagation = Propagation.REQUIRED)
-	public ResponseEntity<ResponseWrapper> delete(HttpServletRequest request, @PathVariable Long id) throws Exception {
+	public ResponseEntity<ResponseWrapper> delete(HttpServletRequest request, @PathVariable String id) throws Exception {
 		ResponseWrapper resp = new ResponseWrapper();
 		REQITEM data = reqItemMapper.getEntity(id);
 		
@@ -249,7 +248,7 @@ public class REQITEMController {
 		return new ResponseEntity<ResponseWrapper>(resp, HttpStatus.valueOf(resp.getCode()));
 	}
 	
-	@RequestMapping(value = "/new-id", method = RequestMethod.GET, produces = "application/json")
+	/*@RequestMapping(value = "/new-id", method = RequestMethod.GET, produces = "application/json")
 	public ResponseEntity<ResponseWrapper> getNewId() throws Exception {
 		ResponseWrapper resp = new ResponseWrapper();
 		String newId = String.valueOf(reqItemMapper.getNewId());

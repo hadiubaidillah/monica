@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Controller;
@@ -22,7 +24,6 @@ public class PageController {
 	
 	@RequestMapping("/")
 	public String loadIndex(Model model){
-		model.addAttribute("contextPath", contextPath);
 		return "index";
 	}
 	
@@ -40,8 +41,19 @@ public class PageController {
 		for(MyMap myMap : listTime) { mapTime.put(myMap.getKey(), myMap.getValue()); }
 		model.addAttribute("mapTime", mapTime);
 		model.addAttribute("listTime", listTime);
-		model.addAttribute("contextPath", contextPath);
 		return jsp;
+	}
+	
+	@RequestMapping("/admin/")
+	public String loadAdminIndex(Model model, HttpServletRequest request){
+		model.addAttribute("assetPath", request.getContextPath()+"/admin");
+		return "admin/index";
+	}
+	
+	@RequestMapping("/admin/{jsp}")
+	public String loadAdminJsp(Model model, HttpServletRequest request, @PathVariable String jsp){
+		model.addAttribute("assetPath", request.getContextPath()+"/admin");
+		return "admin/"+jsp;
 	}
 	
 }

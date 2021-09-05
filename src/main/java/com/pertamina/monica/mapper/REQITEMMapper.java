@@ -19,7 +19,7 @@ public interface REQITEMMapper {
 	@Delete("DELETE FROM REQITEM WHERE ${clause}")
 	void deleteBatch(QueryParameter param);
 	
-	@Delete("DELETE FROM REQITEM WHERE KIMAP=#{id}")
+	@Delete("DELETE FROM REQITEM WHERE LINENUM=#{LINENUM}")
 	void delete(REQITEM REQITEM);
 	
 	List<REQITEM> getList(QueryParameter param);
@@ -28,7 +28,7 @@ public interface REQITEMMapper {
 	
 	long getCount(QueryParameter param);
 	
-	Long getNewId();
+	String getNewId();
 	
 	/********************************** - End Generate - ************************************/
 

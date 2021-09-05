@@ -33,7 +33,7 @@
 				</a>
 			</div>
 			<div class="menu col-lg-4 d-none d-lg-block text-center text-nowrap">
-				<span class="fs-2" id="title">&nbsp;</span>
+				<span class="fs-2" id="title-xxxxxxxxxxx">&nbsp;</span>
 			</div>
 		</div>
 		<div class="col-lg-5 col-sm-12 p-0 d-none d-lg-block">
@@ -42,9 +42,10 @@
 	</div>
 </header>
 
-<div class="container-fluid p-0 overflow-hidden">
+<div class="container p-3 overflow-hidden">
 	<div class="row col-lg-12 col-sm-12">
-		<!-- <div class="row">
+		<h1 class="mt-0 mt-lg-5 mb-3" id="title"></h1>
+		<div class="row">
 			<div class="col-6">
 				<div class="webDescription"><em>Request Type: </em><span>NEW KIMAP</span></div>
 				<div class="webDescription"><em>Request By: </em><span>DICKY 1</span></div>
@@ -53,7 +54,7 @@
 				<div class="webDescription"><em>Coding: </em><span>Z41516</span></div>
 				<div class="webDescription"><em>Company: </em><span>2210</span></div>
 			</div>
-		</div> -->
+		</div>
 	</div>
 </div>
 

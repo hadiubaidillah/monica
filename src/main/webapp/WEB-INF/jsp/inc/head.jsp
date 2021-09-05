@@ -2,6 +2,7 @@
 	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 	<%@ taglib prefix="fn" uri = "http://java.sun.com/jsp/jstl/functions" %>
 	
+	<c:set var="contextPath" scope="session" value="${pageContext.request.contextPath}" />
 	<c:set var="term" value="${param.term}"/>
 	<c:set var="mode" value="${param.mode eq null ? 'words' : param.mode eq 'images' ? 'images' : 'words'}"/>
 	<c:set var="image" value="${param.image}"/>

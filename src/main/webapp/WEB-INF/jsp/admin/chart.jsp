@@ -1,0 +1,85 @@
+<%@ include file = "inc/header.jsp" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.ArrayList" %>
+<div id="wrapper" class="main-content">
+	<div id="content-wrapper" class="section__content section__content--p30">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-6">
+					<div class="au-card m-b-30">
+						<div class="au-card-inner">
+							<h3 class="title-2 m-b-40">Yearly Sales</h3>
+							<canvas id="sales-chart"></canvas>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-6">
+					<div class="au-card m-b-30">
+						<div class="au-card-inner">
+							<h3 class="title-2 m-b-40">Team Commits</h3>
+							<canvas id="team-chart"></canvas>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-6">
+					<div class="au-card m-b-30">
+						<div class="au-card-inner">
+							<h3 class="title-2 m-b-40">Bar chart</h3>
+							<canvas id="barChart"></canvas>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-6">
+					<div class="au-card m-b-30">
+						<div class="au-card-inner">
+							<h3 class="title-2 m-b-40">Rader chart</h3>
+							<canvas id="radarChart"></canvas>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-6">
+					<div class="au-card m-b-30">
+						<div class="au-card-inner">
+							<h3 class="title-2 m-b-40">Line Chart</h3>
+							<canvas id="lineChart"></canvas>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-6">
+					<div class="au-card m-b-30">
+						<div class="au-card-inner">
+							<h3 class="title-2 m-b-40">Doughut Chart</h3>
+							<canvas id="doughutChart"></canvas>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-6">
+					<div class="au-card m-b-30">
+						<div class="au-card-inner">
+							<h3 class="title-2 m-b-40">Pie Chart</h3>
+							<canvas id="pieChart"></canvas>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-6">
+					<div class="au-card m-b-30">
+						<div class="au-card-inner">
+							<h3 class="title-2 m-b-40">Polar Chart</h3>
+							<canvas id="polarChart"></canvas>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-6">
+					<div class="au-card m-b-30">
+						<div class="au-card-inner">
+							<h3 class="title-2 m-b-40">Single Bar Chart</h3>
+							<canvas id="singelBarChart"></canvas>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<%@ include file = "inc/trademark.jsp" %>
+	</div>
+</div>
+<%@ include file = "inc/footer.jsp" %>

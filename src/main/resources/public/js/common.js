@@ -69,7 +69,7 @@ function createPagination(id, func, pagination) {
 			html += '<li class="page-item"><a class="page-link" href="javascript:'+func+'('+(pagination.activepage - 1)+')" aria-label="Previous"> <span aria-hidden="true">&laquo;</span> </a></li>';
 		}
 		var i;
-		for ( i = 1; i <= pagination.pagecount; i++) {
+		for (var i = 1; i <= pagination.pagecount; i++) {
 			if (pagination.activepage == i) {
 				html += '<li class="page-item active"><a class="page-link" href="javascript:'+func+'(' + i + ')">' + i + '</a></li>';
 			} else {
@@ -93,7 +93,7 @@ function createPagination_v2(id, func, pagination) {
 	var html = '';
 	for(var i = min ; i <= max ; i ++) { html += '<td class="pageItem '+(pagination.activepage==i?'active':'')+'"><a href="javascript:'+func+'(' + (i) + ')" class="d-flex flex-column"><span></span><span>'+i+'</span></a></td>'; }
 	$('#'+id).html(html);
-	$('#prevLink').attr('href', 'javascript:display('+(pagination.activepage>=pagination.pagecount?pagination.activepage-1:pagination.activepage)+')');
+	$('#prevLink').attr('href', 'javascript:display('+(pagination.activepage-1<=0?1:pagination.activepage-1)+')');
 	$('#nextLink').attr('href', 'javascript:display('+(pagination.activepage<pagination.pagecount?pagination.activepage+1:pagination.activepage)+')');
 }
 

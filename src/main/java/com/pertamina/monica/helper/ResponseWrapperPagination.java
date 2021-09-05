@@ -1,6 +1,6 @@
 package com.pertamina.monica.helper;
 
-public class ResponseWrapperPagination extends ResponseWrapper {
+public class ResponseWrapperPagination extends ResponseWrapperList {
 	
 	private Pagination pagination = new Pagination();
 	
