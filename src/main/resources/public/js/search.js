@@ -31,9 +31,9 @@ function getParam(page=1) {
 	return 'mode='+mode+'&term='+$('#txtSearch').val()+'&time='+time+(min!=''&&max!=''?'&min='+min+'&max='+max:'')+(page>1?'&page='+page:'');
 }
 
-function display(page=1) {
+function display(page=1,limit=2) {
 	const ajaxTime = new Date().getTime();
-	ajaxGET(url_reqitem+'/list?'+getParam(page)+'&limit=2',function(response){
+	ajaxGET(url_reqitem+'/list?'+getParam(page),function(response){ //+'&limit=2'
 		if(response.code == 200) {
 			const totalTime = new Date().getTime()-ajaxTime;
 			$('#count').html(response.count);

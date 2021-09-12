@@ -5,7 +5,7 @@ function init(){
 }
 
 function display(page=1,limit=2){
-	ajaxGET(url_reqitem + '/list?mode=words&term=&page='+page+'&limit='+limit,function(response){
+	ajaxGET(url_reqitem + '/list?mode=words&term=&page='+page,function(response){ //+'&limit='+limit
 		$('[id=loading-row], [id=more-button-row], [id=no-data-row]').hide();
 		var row = '';
 		var tbody = $('#tbl').find($('tbody'));

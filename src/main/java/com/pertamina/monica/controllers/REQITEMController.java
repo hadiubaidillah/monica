@@ -64,6 +64,7 @@ public class REQITEMController {
 		final long count = reqItemMapper.getCount(param);
 		
 		if(limit.isPresent()) { param.setLimit(limit.get()); }
+		else { limit = Optional.of(10); }
 		if(page.isPresent()) { int offset = (page.get()-1)*param.getLimit(); param.setOffset(offset); }
 		else { page = Optional.of(1); }
 		
