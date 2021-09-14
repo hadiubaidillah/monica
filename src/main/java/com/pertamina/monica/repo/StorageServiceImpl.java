@@ -25,7 +25,10 @@ public class StorageServiceImpl implements StorageService {
 		
 		File file = new File(appFolder + filename);
 		if(!file.exists()) {
-			file = new File(appFolder + "ImageNotFound.png");
+			file = new File(System.getProperty("java.io.tmpdir") + filename);
+			if(!file.exists()) {
+				file = new File(appFolder + "ImageNotFound.png");
+			}
 		}
 		return file;
 	}
@@ -57,16 +60,14 @@ public class StorageServiceImpl implements StorageService {
 	@Override
 	public void store(MultipartFile file, String filename) throws Exception {
 		System.out.println("store in file system: " + appFolder);
-			
 		if (!file.isEmpty()) {
 			try {
 				byte[] bytes = file.getBytes();
 				BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File(appFolder + filename)));
 				stream.write(bytes);
 				stream.close();
-				
 			} catch (Exception e) {
-					
+				
 			}
 		} else {
 			throw new Exception("Failed store file.");

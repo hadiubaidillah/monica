@@ -13,7 +13,7 @@
 					<h4>
 						Request Item
 						<span class="float-right hide_if_not_admin">
-							<button onclick="display()" data-toggle="modal" data-target="#modal-form" class="btn btn-dark float-right mx-1" type="button"><i class="fas fa-fw fa-refresh"></i> Refresh</button>
+							<button onclick="refresh()" data-toggle="modal" data-target="#modal-form" class="btn btn-dark float-right mx-1" type="button"><i class="fas fa-fw fa-refresh"></i> Refresh</button>
 							<button onclick="add()" data-toggle="modal" data-target="#modal-form" class="btn btn-dark float-right mx-1" type="button"><i class="fas fa-fw fa-plus"></i> Tambah</button>
 						</span>
 					</h4>
@@ -54,7 +54,7 @@
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h4 class="modal-title">Form Waktu Pengujian</h4>
+					<h4 class="modal-title">Form Request Item</h4>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 				</div>
 				<div class="modal-body">
@@ -75,26 +75,40 @@
 					<div class="row">
 						<div class="col-md-6">
 							<div class="form-group">
-								<label>COMPANY <span class="text-danger">*</span></label>
-								<input type="text" name="COMPANY" class="form-control" />
+								<label>COMPANY <span class="text-danger">*</span> <span class="text-primary">(Select2)</span></label>
+								<!-- <input type="text" name="COMPANY" class="form-control" /> -->
+								<select name="COMPANY" class="form-control select2">
+									<option>-- Select Company --</option>
+								</select>
 							</div>
 						</div>
 						<div class="col-md-6">
 							<div class="form-group">
-								<label>REQUESTED BY <span class="text-danger">*</span></label>
-								<input type="text" name="REQUESTEDBY" class="form-control" />
+								<label>REQUESTED BY <span class="text-danger">*</span> <span class="text-primary">(ComboBox)</span></label>
+								<!-- <input type="text" name="REQUESTEDBY" class="form-control" /> -->
+								<select name="REQUESTEDBY" class="form-control select2">
+									<option>-- Select Requested By --</option>
+								</select>
 							</div>
 						</div>
 						<div class="col-md-6">
 							<div class="form-group">
-								<label>REQUEST TYPE <span class="text-danger">*</span></label>
-								<input type="text" name="REQUESTTYPE" class="form-control" />
+								<label>REQUEST TYPE <span class="text-danger">*</span> <span class="text-primary">(DatePicker)</span></label>
+								<!-- <input type="text" name="REQUESTTYPE" class="form-control" /> -->
+								<div class="form-group">
+									<div class="input-group date" id="datepicker1" data-target-input="nearest">
+										<input type="text" name="REQUESTTYPE" class="form-control" data-target="#datepicker1"/>
+										<div class="input-group-append" data-target="#datepicker1" data-toggle="datepicker1">
+											<div class="input-group-text"><i class="fa fa-calendar"></i></div>
+										</div>
+									</div>
+								</div>
 							</div>
 						</div>
 						<div class="col-md-6">
 							<div class="form-group">
-								<label>OLD ITEM NUM <span class="text-danger">*</span></label>
-								<input type="text" name="OLDITEMNUM" class="form-control" />
+								<label>OLD ITEM NUM <span class="text-danger">*</span> <span class="text-primary">(Number)</span></label>
+								<input type="number" name="OLDITEMNUM" class="form-control" />
 							</div>
 						</div>
 						<div class="col-md-6">
@@ -117,25 +131,37 @@
 						</div>
 						<div class="col-md-6">
 							<div class="form-group">
-								<label>SHORT TEXT <span class="text-danger">*</span></label>
-								<input type="text" name="SHORTTEXT" class="form-control" />
+								<label>IS SPAREPART <span class="text-danger">*</span> <span class="text-primary">(Radio Button)</span></label><br/>
+								<input type="radio" name="ISSPAREPART" value="Y" checked /> Ya
+								<input type="radio" name="ISSPAREPART" value="N" /> Tidak
 							</div>
 						</div>
-						<div class="col-md-6">
+						<div class="col-md-12">
 							<div class="form-group">
-								<label>IS SPAREPART <span class="text-danger">*</span></label>
-								<input type="text" name="ISSPAREPART" class="form-control" />
+								<label>SHORT TEXT <span class="text-danger">*</span> <span class="text-primary">(Textarea)</span></label>
+								<!-- <input type="text" name="SHORTTEXT" class="form-control" /> -->
+								<textarea name="SHORTTEXT" class="form-control" rows="3"></textarea>
 							</div>
 						</div>
-						<div class="col-md-6">
+						<div class="col-md-12">
 							<div class="form-group">
 								<label>PO TEXT <span class="text-danger">*</span></label>
-								<input type="text" name="POTEXT" class="form-control" />
+								<%-- <input type="text" name="POTEXT" class="form-control" /> --%>
+								<table id="tbl-po" class="table table-bordered table-striped table-hover">
+									<thead>
+										<tr>
+											<td width="1%" class="text-center">NO</td>
+											<td width="1%" class="text-center">NAME</td>
+											<td width="100" class="text-center">VALUE</td>
+										</tr>
+									</thead>
+									<tbody></tbody>
+								</table>
 							</div>
 						</div>
 						<div class="col-md-6">
 							<div class="form-group">
-								<label>PURCHASIN GGROUP <span class="text-danger">*</span></label>
+								<label>PURCHASING GROUP <span class="text-danger">*</span></label>
 								<input type="text" name="PURCHASINGGROUP" class="form-control" />
 							</div>
 						</div>
@@ -199,41 +225,6 @@
 		</div>
 	</div>
 </form>
-
-<%-- Modal Confirm --%>
-<div class="modal fade" data-backdrop="static" id="modalconfirm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h4 class="modal-title" id="myModalLabel">Konfirmasi Hapus</h4>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-			</div>
-			<div class="modal-body">
-				<div class="row">
-					<div class="col-md-12">
-						<div id="msg" class="alert alert-success" role="alert" hidden="hidden"></div>
-					</div>
-				</div>
-				<div id="progressBar1"	class="row">
-					<div class="col-12">
-						<div class="progress">
-							<div class="progress-bar bg-danger progress-bar-striped progress-bar-animated" role="progressbar" style="width: 45%" aria-valuenow="45" aria-valuemin="0" aria-valuemax="45"></div>
-						</div>
-					</div>
-				</div>		
-				<div class="form-group">
-					<p>Apakah anda yakin akan menghapus data 'Request Item' ini?</p>
-				</div>
-				<div class="modal-footer">
-					<button class="btn btn-default" data-dismiss="modal" aria-hidden="true">BATAL</button>
-					<button id="btnRemove" onclick="remove($(this).data('id'),1);" data-id="0" type="button" class="btn btn-danger">
-					<span class="glyphicon glyphicon-trash"></span>	
-					HAPUS</button>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
 
 <script src="${assetPath}/js/reqitem.js"></script>
 <%@ include file = "inc/footer.jsp" %>

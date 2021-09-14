@@ -19,7 +19,7 @@ function searchImageUrl() {
 	console.log(' search url -mage');
 	$('#form-search-image-url').hide();
 	$('#form-search-image-url-loading').show();
-	ajaxGET(url_reqitem+'/list-by-image-url?url='+$('#urlImage').val(),function(response){ // //url_reqitem+'/list?mode=images&term=&image-url='+$('#urlImage').val()
+	ajaxGET(url_reqitem+'/list-by-image-url?url='+$('#urlImage').val(),function(response){
 		//alert(response.message);
 		location='search?mode=images&term=&image='+response.image;
 		$('#form-search-image-url').show();

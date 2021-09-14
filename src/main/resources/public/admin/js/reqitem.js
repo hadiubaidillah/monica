@@ -1,7 +1,58 @@
 const url_reqitem = ctx+'/REQITEM';
 
+var public_list_POTEXT = [];
+
 function init(){
-	display()
+
+	$('#datepicker1,#datepicker2').datepicker({format:'dd-mm-yyyy'}).on('changeDate',function(e){$(this).datepicker('hide')});
+
+	generateInputCOMPANY();
+	generateInputPOTEXT();
+	generateInputREQUESSTEDBY();
+	display();
+}
+
+function generateInputCOMPANY() {
+	ajaxGET(url_reference+'/COMPANY',function(response){
+		if (response.code == 200) {
+			$.each(response.data, function(key, value) {
+				$('[name=COMPANY]').append(new Option(value.name, value.id));
+			});
+			$('[name=COMPANY]').select2();
+		} else { alert("Connection error"); }
+	});
+}
+
+function generateInputREQUESSTEDBY() {
+	ajaxGET(url_reference+'/REQUESTEDBY',function(response){
+		if (response.code == 200) {
+			$.each(response.data, function(key, value) {
+				$('[name=REQUESTEDBY]').append(new Option(value, value));
+			});
+		} else { alert("Connection error"); }
+	});
+}
+
+function generateInputPOTEXT() {
+	ajaxGET(url_reference+'/POTEXT',function(response){
+		if (response.code == 200) {
+			public_list_POTEXT = response.data;
+			var row = '';
+			$.each(response.data,function(key,name){
+				row += '<tr>';
+				row += '<td class="text-center">'+(key+1)+'</td>';
+				row += '<td nowrap>'+name+'</td>';
+				row += '<td><input type="text" name="POTEXT-'+name.replaceAll(' ','-')+'" class="form-control" /></td>';
+				row += '</tr>';
+			});
+			$('#tbl-po').find($('tbody')).html(row);
+		} else { alert("Connection error"); }
+	});
+}
+
+function refresh() {
+	$('#tbl').find($('tbody')).html('<tr id="loading-row"><td colspan="20"><div class="list-group-item text-center"><img width="20" src="'+ctx+'/images/loading-spinner.gif"/> Mohon Tunggu..</div></td></tr>');
+	setTimeout(function(){display()},1000);
 }
 
 function display(page=1,limit=2){
@@ -51,14 +102,11 @@ function reset(){
 	cleanMessage('msg');
 	selected_id = '';
 	$('#frmInput').trigger('reset');
+	$('[name=COMPANY]').select2();
 }
 
 function add(){
-	selected_id = '';
-	$('[name=tahun]').val(new Date().getFullYear());
-	$('[name=mulai]').val('');//moment().format('DD-MM-YYYY')
-	$('[name=akhir]').val('');//moment().format('DD-MM-YYYY')
-	$('[name=catatan]').val('');
+	reset();
 	$("#progressBar").hide();
 	$("#modalInput").modal('show');
 }
@@ -71,7 +119,7 @@ function edit(id){
 	ajaxGET(url_reqitem+'/'+id,function(response){	
 		console.log(response);
 		$('[name=LINENUM]').val(response.data.linenum);
-		$('[name=COMPANY]').val(response.data.company);
+		$('[name=COMPANY]').val(response.data.company).select2();
 		$('[name=REQUESTEDBY]').val(response.data.requestedby);
 		$('[name=REQUESTTYPE]').val(response.data.requesttype);
 		$('[name=OLDITEMNUM]').val(response.data.olditemnum);
@@ -80,7 +128,15 @@ function edit(id){
 		$('[name=CODING]').val(response.data.coding);
 		$('[name=SHORTTEXT]').val(response.data.shorttext);
 		$('[name=ISSPAREPART]').val(response.data.issparepart);
-		$('[name=POTEXT]').val(response.data.potext);
+		//$('[name=POTEXT]').val(response.data.potext);
+		try {
+			const POTEXT = JSON.parse(response.data.potext);
+			$.each(public_list_POTEXT, function(key,value){
+				$('[name=POTEXT-'+value.replaceAll(' ','-')+']').val(POTEXT[value.replaceAll(' ','-')]);
+			});
+		} catch(e){
+			console.error('gagal generate POTEXT JSON dari database!');
+		}
 		$('[name=PURCHASINGGROUP]').val(response.data.purchasinggroup);
 		$('[name=MANUFACTURER]').val(response.data.manufacturer);
 		$('[name=PARTNUMBER]').val(response.data.partnumber);
@@ -101,7 +157,7 @@ function remove(id, confirm = 0){
 	if(id != null) selected_id = id;
 	if(confirm == 0) ajaxGET(url_reqitem+'/'+id,function(response){
 		var value = response.data;
-		$('#modal-remove-content').html('<p>Apakah anda yakin akan menghapus data ini?</p>')
+		$('#modal-remove-content').html('<p>Apakah anda yakin akan menghapus data <u>Request Item</u> ini?</p>')
 		$('#modal-remove').modal('show');
 		$("#progressBar1").hide();
 		$("#modalconfirm").modal('show');
@@ -116,6 +172,15 @@ function save(){
 	cleanMessage('msg');
 	var obj = new FormData(document.querySelector('#frmInput'));
 	if(selected_id != '') obj.append('LINENUM',selected_id);
+	
+	// BEGIN -> generate POTEXT dari input GRID menjadi JSON
+	var POTEXT = {};
+	$.each(public_list_POTEXT, function(key,value){
+		POTEXT[value.replaceAll(' ','-')] = $('[name=POTEXT-'+value.replaceAll(' ','-')+']').val();
+	});
+	obj.append('POTEXT', JSON.stringify(POTEXT));
+	// END
+	
 	$.LoadingOverlay('show',{image:ctx+'/images/loading-spinner.gif'});
 	ajaxPOST(url_reqitem+'/save',obj,function(response){
 		$.LoadingOverlay('hide');

@@ -1,13 +1,16 @@
 package com.pertamina.monica.controllers;
 
-
+import java.io.File;
+import java.net.URL;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +31,6 @@ import com.pertamina.monica.helper.ResponseWrapperPagination;
 import com.pertamina.monica.mapper.REQITEMMapper;
 import com.pertamina.monica.repo.StorageService;
 
-
 @RestController
 @RequestMapping("/REQITEM")
 public class REQITEMController {
@@ -47,8 +49,8 @@ public class REQITEMController {
 			@RequestParam("term") String term,
 			@RequestParam("image") Optional<String> image,
 			@RequestParam("time") Optional<String> time,
-			@RequestParam("min") Optional<String> min,
-			@RequestParam("max") Optional<String> max,
+			@RequestParam("min") Optional<String> min, // khusus custom rage
+			@RequestParam("max") Optional<String> max, // khusus custom rage
 			@RequestParam("limit") Optional<Integer> limit,
 			@RequestParam("page") Optional<Integer> page,
 			@RequestParam("is-pagination-next") Optional<String> isPaginationNext
@@ -61,10 +63,17 @@ public class REQITEMController {
 		param.setClause(param.getClause() + REQITEM.COLUMN_COMPANY + " LIKE '%"+term+"%' ");
 		param.setClause(param.getClause() + " ) ");
 		
+		if(time.isPresent() && time.get().equals("any-time") == false) {
+			param.setClause(param.getClause() + " AND date_added NOW() - 1");
+			if(time.get().equals("custom-range") && min.isPresent() && max.isPresent()) {
+				param.setClause(param.getClause() + " AND date_added BETWEEN "+min+" AND " + max +"");
+			}
+		}
+		
 		final long count = reqItemMapper.getCount(param);
 		
 		if(limit.isPresent()) { param.setLimit(limit.get()); }
-		else { limit = Optional.of(10); }
+		else { limit = Optional.of(10); param.setLimit(limit.get()); } // pengaturan limit
 		if(page.isPresent()) { int offset = (page.get()-1)*param.getLimit(); param.setOffset(offset); }
 		else { page = Optional.of(1); }
 		
@@ -90,6 +99,16 @@ public class REQITEMController {
 		ResponseWrapperPagination resp = new ResponseWrapperPagination();
 		resp.setMessage("/list-by-image-url \nini pesan dari server \n"+url+"");
 		resp.setImage(url);
+		
+		File file = File.createTempFile("tmp-"+new Date().getTime(), "."+FilenameUtils.getExtension(url), new File(System.getProperty("java.io.tmpdir")));
+		try {
+			FileUtils.writeByteArrayToFile(file, IOUtils.toByteArray(new URL(url).openStream()));
+		} catch (Exception e) {
+			
+		}
+		
+		// TODO: file silahkan di cari yang mirip
+		
 		return resp;
 	}
 	
@@ -97,13 +116,18 @@ public class REQITEMController {
 	@Transactional(rollbackFor=Exception.class, propagation = Propagation.REQUIRED)
 	public ResponseWrapperPagination getListByImageUpload(HttpServletRequest request, @RequestParam("upload") MultipartFile upload)throws Exception {
 		ResponseWrapperPagination resp = new ResponseWrapperPagination();
-		System.out.println("file: " + upload.getOriginalFilename());
 		resp.setMessage("/list-by-image-upload \nini pesan dari server \n"+upload.getOriginalFilename()+"");
-		final long date = new Date().getTime();
-		final String ext = FilenameUtils.getExtension(upload.getOriginalFilename());
-		final String filename = "tmp-"+date+"."+ext;
-		storageService.store(upload, filename);
-		resp.setImage("http"+(request.isSecure()?"s":"")+"://"+request.getServerName() + ":" + request.getServerPort() + request.getContextPath() + "/files/" + filename + "?filename=" + filename);
+
+		File file = File.createTempFile("tmp-"+new Date().getTime(), "."+FilenameUtils.getExtension(upload.getOriginalFilename()), new File(System.getProperty("java.io.tmpdir")));
+		try {
+			FileUtils.writeByteArrayToFile(file, IOUtils.toByteArray(upload.getInputStream()));
+		} catch (Exception e) {
+			
+		}
+		
+		// TODO: file silahkan di cari yang mirip
+		
+		resp.setImage("http"+(request.isSecure()?"s":"")+"://"+request.getServerName() + ":" + request.getServerPort() + request.getContextPath() + "/files/" + file.getName() + "?filename=" + file.getName());
 		return resp;
 	}
 	
@@ -114,46 +138,6 @@ public class REQITEMController {
 		resp.setData(data);
 		return new ResponseEntity<ResponseWrapper>(resp, HttpStatus.valueOf(resp.getCode()));
 	}
-	
-	/*@RequestMapping(value="/list2", method = RequestMethod.GET, produces = "application/json")
-	@Transactional(rollbackFor=Exception.class, propagation = Propagation.REQUIRED)
-	public ResponseWrapperList getList2(
-			HttpServletRequest request,
-			@RequestParam("mode") String mode,
-			@RequestParam("term") String term,
-			@RequestParam("time") Optional<String> time,
-			@RequestParam("min") Optional<String> min,
-			@RequestParam("max") Optional<String> max,
-			@RequestParam("limit") Optional<Integer> limit,
-			@RequestParam("page") Optional<Integer> page
-			)throws Exception {
-		QueryParameter param = new QueryParameter();
-		param.setClause(param.getClause() + " AND ( ");
-		param.setClause(param.getClause() + REQITEM.COLUMN_REQUESTEDBY + " LIKE '%"+term+"%' OR ");
-		param.setClause(param.getClause() + REQITEM.COLUMN_REQUESTTYPE + " LIKE '%"+term+"%' OR ");
-		param.setClause(param.getClause() + REQITEM.COLUMN_CODING + " LIKE '%"+term+"%' OR ");
-		param.setClause(param.getClause() + REQITEM.COLUMN_COMPANY + " LIKE '%"+term+"%' ");
-		param.setClause(param.getClause() + " ) ");
-
-		if(limit.isPresent()) { param.setLimit(limit.get()); if(limit.get() > 2000000000) param.setLimit(2000000000); }
-		else { param.setLimit(10); }
-		
-		int pPage = 1;
-		if(page.isPresent()) { pPage = page.get(); int offset = (pPage-1)*param.getLimit(); param.setOffset(offset); }
-		
-		ResponseWrapperList resp = new ResponseWrapperList();
-		List<REQITEM> data = reqItemMapper.getList(param);
-		resp.setData(data);
-		resp.setCount(reqItemMapper.getCount(param));
-		resp.setNextMore(data.size()+((pPage-1)*param.getLimit()) < resp.getCount());
-		
-		String qryString = "?page="+(pPage+1);
-		if(limit.isPresent()) { qryString += "&limit="+limit.get(); }
-		resp.setNextPageNumber(pPage+1);
-		resp.setNextPage(request.getRequestURL().toString()+qryString);
-		
-		return resp;
-	}*/
 
 	@RequestMapping(value="/save", method = RequestMethod.POST, produces = "application/json")
 	@Transactional(rollbackFor=Exception.class, propagation = Propagation.REQUIRED)
@@ -178,7 +162,7 @@ public class REQITEMController {
 			@RequestParam("PROFITCENTER") Optional<String> PROFITCENTER,
 			@RequestParam("LABOFFICE") Optional<String> LABOFFICE,
 			@RequestParam("STATUS") Optional<String> STATUS,
-			@RequestParam("GAMBAR") Optional<String> GAMBAR
+			@RequestParam("GAMBAR") Optional<MultipartFile> GAMBAR
 			) throws Exception {
 		
 		ResponseWrapper resp = new ResponseWrapper();
@@ -211,7 +195,7 @@ public class REQITEMController {
 		if(PROFITCENTER.isPresent()) data.setPROFITCENTER(PROFITCENTER.get());
 		if(LABOFFICE.isPresent()) data.setLABOFFICE(LABOFFICE.get());
 		if(STATUS.isPresent()) data.setSTATUS(STATUS.get());
-		if(GAMBAR.isPresent()) data.setGAMBAR(GAMBAR.get());
+		//if(GAMBAR.isPresent()) data.setGAMBAR(GAMBAR.get());
 		
 		boolean pass = true;
 		if(data.getCOMPANY() == null) {
@@ -242,20 +226,10 @@ public class REQITEMController {
 	public ResponseEntity<ResponseWrapper> delete(HttpServletRequest request, @PathVariable String id) throws Exception {
 		ResponseWrapper resp = new ResponseWrapper();
 		REQITEM data = reqItemMapper.getEntity(id);
-		
 		resp.setData(data);
 		reqItemMapper.delete(data);
-		
 		return new ResponseEntity<ResponseWrapper>(resp, HttpStatus.valueOf(resp.getCode()));
 	}
-	
-	/*@RequestMapping(value = "/new-id", method = RequestMethod.GET, produces = "application/json")
-	public ResponseEntity<ResponseWrapper> getNewId() throws Exception {
-		ResponseWrapper resp = new ResponseWrapper();
-		String newId = String.valueOf(reqItemMapper.getNewId());
-		resp.setData(newId);
-		return new ResponseEntity<ResponseWrapper>(resp, HttpStatus.valueOf(resp.getCode()));
-	}*/
 
 	private Pagination pagination = new Pagination();
 	
@@ -267,4 +241,18 @@ public class REQITEMController {
 		this.pagination = pagination;
 	}
 
+}
+
+class MultipartFileWrapper {
+	
+	MultipartFile multipartFile;
+
+	public MultipartFile getMultipartFile() {
+		return multipartFile;
+	}
+
+	public void setMultipartFile(MultipartFile multipartFile) {
+		this.multipartFile = multipartFile;
+	}
+	
 }

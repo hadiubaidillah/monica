@@ -108,7 +108,7 @@
 			</div>
 		</div>
 	</c:if>
-	<div class="row justify-content-center mt-4"> <!-- fixed-bottom mb-5 -->
+	<div class="row justify-content-center mt-4 mb-4 mb-lg-5"> <!-- fixed-bottom -->
 		<div class="col-sm-6 col-lg-5 ps-5 ms-5 ps-lg-0 ms-lg-0 offset-lg-1 offset-sm-6">
 			<div class="pagination">
 				<%-- <nav class="m-auto"> Basic Pagination V1

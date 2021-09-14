@@ -1,5 +1,54 @@
-.modal-backdrop { background-color: none !important; width: 100% !important; height: 100% !important; }
-.menu-sidebar__content { height: 90% !important; }
-body, html, .page-container, #wrapper { height: 100%; background: #E5E5E5; }
-body { zoom: 0.80; zoom: 80%; }
-.breadcrumb { border: 1px solid #d8d8d8; }
+.modal-backdrop {
+	background-color: none !important;
+	width: 100% !important;
+	height: 100% !important;
+}
+.menu-sidebar__content {
+	height: 90% !important;
+}
+body, html, .page-container, #wrapper {
+	height: 100%;
+	background: #E5E5E5;
+}
+body {
+	zoom: 0.80;
+	zoom: 80%;
+}
+.breadcrumb {
+	border: 1px solid #d8d8d8;
+}
+.btn-sm {
+	color: black;
+	background-color: #fff;
+	border-color: #aaa;
+	font-size: 1rem;
+	line-height: 1.5;
+	padding: .375rem .75rem;
+	padding-top: 0.375rem;
+	padding-right: 0.75rem;
+	padding-bottom: 0.375rem;
+	padding-left: 0.75rem;
+}
+@media (max-width: 991px) {
+	.header-desktop {
+		height: 75px;
+	}
+	.header-button {
+		margin-top: 0px;
+	}
+}
+
+/* ----- Select2 ----- */
+
+.select2-container {
+	width: 100% !important;
+}
+.select2-selection {
+	height: 40px !important;
+	padding-top: 6px !important;
+	padding-left: 7px;
+}
+.select2-selection__arrow {
+	margin-top: 8px !important;
+	margin-right: 4px !important;
+}

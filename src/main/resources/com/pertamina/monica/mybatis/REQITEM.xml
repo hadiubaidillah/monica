@@ -7,7 +7,27 @@
 
 	<resultMap type="REQITEM" id="REQITEM_map" autoMapping="true">
 		<id property="LINENUM" column="LINENUM" />
-		<!-- <association property="POTEXT" resultMap="com.pertamina.monica.mapper.REQITEMMapper.REQITEM_map" /> -->
+		<!-- <result property="COMPANY" column="COMPANY" /> -->
+		<!-- ,
+		REQUESTEDBY,
+		REQUESTTYPE,
+		OLDITEMNUM,
+		MAINGROUP,
+		NOUNMODIFIER,
+		CODING,
+		SHORTTEXT,
+		ISSPAREPART,
+		POTEXT,
+		PURCHASINGGROUP,
+		MANUFACTURER,
+		PARTNUMBER,
+		UOM,
+		MATTYPE,
+		PROFITCENTER,
+		LABOFFICE,
+		STATUS,
+		GAMBAR -->
+		<!-- <association property="POTEXT180" resultMap="com.pertamina.monica.mapper.POTEXT180Mapper.POTEXT180_map" /> -->
 	</resultMap>
 
 	<select id="getNewId" resultType="string" >
@@ -15,7 +35,8 @@
 	</select>
 
 	<sql id="qry">
-		SELECT * FROM REQITEM
+		SELECT * FROM REQITEM a
+		<!-- LEFT JOIN POTEXT180 b ON a.POTEXT = b.KIMAP -->
 	</sql>
 
 	<select id="getCount" resultType="long" parameterType="string" >

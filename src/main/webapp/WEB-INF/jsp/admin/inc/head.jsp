@@ -29,6 +29,7 @@
 	<link href="https://cdn.jsdelivr.net/npm/perfect-scrollbar@1.5.0/css/perfect-scrollbar.min.css" rel="stylesheet" media="all">
 	<link href="https://cdn.jsdelivr.net/npm/eonasdan-bootstrap-datetimepicker@4.17.47/build/css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
 	<link href="https://cdn.jsdelivr.net/npm/sweetalert2@9.17.2/dist/sweetalert2.min.css" rel="stylesheet" media="all">
+	<link href="https://unpkg.com/bootstrap-datepicker@1.9.0/dist/css/bootstrap-datepicker.min.css" rel="stylesheet" media="all">
 
 	<!-- Main CSS-->
 	<link href="https://colorlib.com/polygon/cooladmin/css/theme.css" rel="stylesheet" media="all">
