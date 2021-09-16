@@ -1,15 +1,69 @@
 const url_reqitem = ctx+'/REQITEM';
 
 var public_list_POTEXT = [];
+var public_list_GAMBAR = [];
 
 function init(){
 
 	$('#datepicker1,#datepicker2').datepicker({format:'dd-mm-yyyy'}).on('changeDate',function(e){$(this).datepicker('hide')});
+	
+	if (window.File && window.FileList && window.FileReader) {
+		$("#multiple_files").on("change", function(e) {
+			for (var i = 0; i < e.target.files.length; i++) {
+				const file = e.target.files[i]
+				const fileReader = new FileReader();
+				var isAlreadyExist = false;
+				$.each(public_list_GAMBAR,function(key,GAMBAR){ if(getFileIdVirtual(file) == getFileIdVirtual(GAMBAR)) { isAlreadyExist = true; } });
+				if(isAlreadyExist == false) {
+					public_list_GAMBAR.push(file);
+					fileReader.onload = (function(e) {
+						$("<span class=\"pip\" data-id=\""+getFileIdVirtual(file)+"\">" +
+						"<img class=\"imageThumb\" src=\"" + e.target.result + "\" title=\"" + file.name + "\"/><br/>" +
+						"<span class=\"img-delete\">Remove</span>" +
+						"</span>").insertAfter("#miltiple_files_container");
+						generateGAMBARDeleteFunction();
+					});
+					fileReader.readAsDataURL(file);
+				}
+			}
+			generateGAMBARLabel();
+		});
+	} else {
+		alert("|Sorry, | Your browser doesn't support to File API")
+	}
 
 	generateInputCOMPANY();
 	generateInputPOTEXT();
 	generateInputREQUESSTEDBY();
 	display();
+}
+
+function getFileIdVirtual(file) {
+	return file.size+"-"+file.lastModified+"-"+file.name;
+}
+
+function generateGAMBARLabel() {
+	var title = '';
+	var label = public_list_GAMBAR.length+' files';
+	$.each(public_list_GAMBAR,function(key,file){ title += file.name+'\n'; });
+	if(public_list_GAMBAR.length == 0) { title = 'No file chosen'; label = title; }
+	if(public_list_GAMBAR.length == 1) { title = public_list_GAMBAR[0].name; label = title; }
+	$('#multiple_files').attr('title',title.trim()).next('label').text(label);
+}
+
+function generateGAMBARDeleteFunction() {
+	$(".img-delete").click(function(){
+		const id = $(this).parent(".pip").data('id');
+		var public_list_GAMBAR_new = [];
+		$.each(public_list_GAMBAR,function(key,file){
+			if(getFileIdVirtual(file) != id) {
+				public_list_GAMBAR_new.push(file);
+			}
+		});
+		public_list_GAMBAR = public_list_GAMBAR_new;
+		$(this).parent(".pip").remove();
+		generateGAMBARLabel();
+	});
 }
 
 function generateInputCOMPANY() {
@@ -101,8 +155,10 @@ function display(page=1,limit=2){
 function reset(){
 	cleanMessage('msg');
 	selected_id = '';
+	public_list_GAMBAR = [];
 	$('#frmInput').trigger('reset');
 	$('[name=COMPANY]').select2();
+	$('[class=pip]').remove();
 }
 
 function add(){
@@ -128,7 +184,7 @@ function edit(id){
 		$('[name=CODING]').val(response.data.coding);
 		$('[name=SHORTTEXT]').val(response.data.shorttext);
 		$('[name=ISSPAREPART]').val(response.data.issparepart);
-		//$('[name=POTEXT]').val(response.data.potext);
+		//$('[name=POTEXT]').val(response.data.potext); unused
 		try {
 			const POTEXT = JSON.parse(response.data.potext);
 			$.each(public_list_POTEXT, function(key,value){
@@ -145,7 +201,18 @@ function edit(id){
 		$('[name=PROFITCENTER]').val(response.data.profitcenter);
 		$('[name=LABOFFICE]').val(response.data.laboffice);
 		$('[name=STATUS]').val(response.data.status);
-		$('[name=GAMBAR]').val(response.data.gambar);
+		//$('[name=GAMBAR]').val(response.data.gambar); unused
+		var images = '';
+		$.each(response.data.listreqitemimage,function(key,value){
+			$("<span class=\"pip\" data-id=\"0-0-"+value.image+"\">" +
+			"<img class=\"imageThumb\" src=\""+ctx+'/files/'+value.image+'?filename='+value.name+"\" title=\"" + value.name + "\"/><br/>" +
+			"<span class=\"img-delete img-delete-saved\">Remove</span>" +
+			"</span>").insertAfter("#miltiple_files_container");
+			generateGAMBARDeleteFunction();
+			public_list_GAMBAR.push(new File([''], value.image, { lastModified: 0 }));
+		});
+		generateGAMBARLabel();
+		
 		$("#progressBar").hide();
 		$("#modalInput").modal('show');
 	},'onEditError');
@@ -179,6 +246,13 @@ function save(){
 		POTEXT[value.replaceAll(' ','-')] = $('[name=POTEXT-'+value.replaceAll(' ','-')+']').val();
 	});
 	obj.append('POTEXT', JSON.stringify(POTEXT));
+	// END
+	
+	// BEGIN -> generate GAMBAR dari input multiple_files
+	$.each(public_list_GAMBAR, function(key,file){
+		//if(file.lastModified != 0) 
+		obj.append('GAMBAR', file);
+	});
 	// END
 	
 	$.LoadingOverlay('show',{image:ctx+'/images/loading-spinner.gif'});

@@ -76,7 +76,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/apexcharts/3.22.1/apexcharts.min.js"></script>
 <script src="https://unpkg.com/nprogress@0.2.0/nprogress.js"></script>
 
-<script src="https://cdn.tiny.cloud/1/dhwwndvlec1r6qob64wr8w40f9bwvq7x44kpsxpnhnig7jqv/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+<%-- <script src="https://cdn.tiny.cloud/1/dhwwndvlec1r6qob64wr8w40f9bwvq7x44kpsxpnhnig7jqv/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script> --%>
 
 <%-- Custom scripts for all pages --%>
 <script src="${assetPath}/../js/common.js"></script>

@@ -1,4 +1,6 @@
 <%@ include file = "inc/header.jsp" %>
+<link href="https://transloadit.edgly.net/releases/uppy/v1.6.0/uppy.min.css" rel="stylesheet">
+<script src="https://transloadit.edgly.net/releases/uppy/v1.6.0/uppy.min.js"></script>
 <div id="wrapper" class="main-content">
 	<div id="content-wrapper" class="section__content section__content--p20">
 		<div class="container-fluid">
@@ -209,8 +211,11 @@
 						</div>
 						<div class="col-md-12">
 							<div class="form-group">
-								<label>GAMBAR <span class="text-danger">*</span></label>
-								<input type="text" name="GAMBAR" class="form-control" />
+								<label>GAMBAR <span class="text-danger">*</span></label><br/>
+								<!-- <input type="text" name="GAMBAR" class="form-control" /> -->
+								<input type="file" id="multiple_files" multiple accept="image/*" class="pull-left" style="width: 120px; color: transparent;" />
+								<label for="multiple_files" class="pull-left" style="padding-top: 5px;">No file chosen</label>
+								<div id="miltiple_files_container" class="clearfix"></div>
 							</div>
 						</div>
 					</div>

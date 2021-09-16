@@ -7,27 +7,9 @@
 
 	<resultMap type="REQITEM" id="REQITEM_map" autoMapping="true">
 		<id property="LINENUM" column="LINENUM" />
-		<!-- <result property="COMPANY" column="COMPANY" /> -->
-		<!-- ,
-		REQUESTEDBY,
-		REQUESTTYPE,
-		OLDITEMNUM,
-		MAINGROUP,
-		NOUNMODIFIER,
-		CODING,
-		SHORTTEXT,
-		ISSPAREPART,
-		POTEXT,
-		PURCHASINGGROUP,
-		MANUFACTURER,
-		PARTNUMBER,
-		UOM,
-		MATTYPE,
-		PROFITCENTER,
-		LABOFFICE,
-		STATUS,
-		GAMBAR -->
-		<!-- <association property="POTEXT180" resultMap="com.pertamina.monica.mapper.POTEXT180Mapper.POTEXT180_map" /> -->
+		<!-- <result property="COMPANY" column="COMPANY" /> ini contoh kalau mau satu satu di masukan dari column ke property, kalo satu satu ga usah pakai autoMapping -->
+		<!-- <association property="POTEXT180" resultMap="com.pertamina.monica.mapper.POTEXT180Mapper.POTEXT180_map" /> ini contoh one to one -->
+		<collection property="LISTREQITEMIMAGE" resultMap="com.pertamina.monica.mapper.REQITEMIMAGEMapper.REQITEMIMAGE_map" /> <!-- ini contoh one to many -->
 	</resultMap>
 
 	<select id="getNewId" resultType="string" >
@@ -45,16 +27,26 @@
 	</select>
 
 	<select id="getList" resultMap="REQITEM_map" parameterType="param">
-	SELECT * FROM (<include refid="qry"/>) AS t
-	<if test="clause != null"> WHERE ${clause} </if>
-	<if test="order != null"> ORDER BY ${order} </if>
-	<if test="order == null"> ORDER BY LINENUM </if>
-	<if test="limit != null"> LIMIT ${limit} </if>
-	<if test="offset != null"> OFFSET ${offset} </if>
+		SELECT * FROM (
+			SELECT * FROM (
+				<include refid="qry"/>
+				<if test="limit != null"> LIMIT ${limit} </if>
+				<if test="offset != null"> OFFSET ${offset} </if>
+			) a
+			LEFT JOIN REQITEMIMAGE b ON a.LINENUM = b.REQITEM <!-- selalu simpan one to many disini, jangan disimpan di <sql id="qry"> -->
+		) AS t
+		<if test="clause != null"> WHERE ${clause} </if>
+		<if test="order != null"> ORDER BY ${order} </if>
+		<if test="order == null"> ORDER BY LINENUM </if>
 	</select>
 
 	<select id="getEntity" resultMap="REQITEM_map" parameterType="string">
-		SELECT * FROM (<include refid="qry"/>) AS qry WHERE LINENUM=#{LINENUM}
+		SELECT * FROM (
+			SELECT * FROM (
+				<include refid="qry"/>
+			) a
+			LEFT JOIN REQITEMIMAGE b ON a.LINENUM = b.REQITEM
+		) AS qry WHERE LINENUM=#{LINENUM}
 	</select>
 	
 	<insert id="insert">
@@ -77,8 +69,7 @@
 		MATTYPE,
 		PROFITCENTER,
 		LABOFFICE,
-		STATUS,
-		GAMBAR
+		STATUS
 		) VALUES (
 		#{LINENUM:NUMERIC},
 		#{COMPANY:VARCHAR},
@@ -98,8 +89,7 @@
 		#{MATTYPE:VARCHAR},
 		#{PROFITCENTER:VARCHAR},
 		#{LABOFFICE:VARCHAR},
-		#{STATUS:VARCHAR},
-		#{GAMBAR:VARCHAR}
+		#{STATUS:VARCHAR}
 		)
 	</insert>
 	
@@ -123,8 +113,7 @@
 		MATTYPE=#{MATTYPE:VARCHAR},
 		PROFITCENTER=#{PROFITCENTER:VARCHAR},
 		LABOFFICE=#{LABOFFICE:VARCHAR},
-		STATUS=#{STATUS:VARCHAR},
-		GAMBAR=#{GAMBAR:VARCHAR}
+		STATUS=#{STATUS:VARCHAR}
 		WHERE LINENUM=#{LINENUM}
 	</update>
 	

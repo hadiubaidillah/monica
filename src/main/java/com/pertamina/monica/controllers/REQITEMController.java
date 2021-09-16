@@ -2,6 +2,7 @@ package com.pertamina.monica.controllers;
 
 import java.io.File;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -24,10 +25,12 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.pertamina.monica.domain.REQITEM;
+import com.pertamina.monica.domain.REQITEMIMAGE;
 import com.pertamina.monica.helper.Pagination;
 import com.pertamina.monica.helper.QueryParameter;
 import com.pertamina.monica.helper.ResponseWrapper;
 import com.pertamina.monica.helper.ResponseWrapperPagination;
+import com.pertamina.monica.mapper.REQITEMIMAGEMapper;
 import com.pertamina.monica.mapper.REQITEMMapper;
 import com.pertamina.monica.repo.StorageService;
 
@@ -37,6 +40,9 @@ public class REQITEMController {
 
 	@Autowired
 	private REQITEMMapper reqItemMapper;
+
+	@Autowired
+	private REQITEMIMAGEMapper reqItemImageMapper;
 	
 	@Autowired
 	protected StorageService storageService;
@@ -108,6 +114,7 @@ public class REQITEMController {
 		}
 		
 		// TODO: file silahkan di cari yang mirip
+		// code here
 		
 		return resp;
 	}
@@ -126,6 +133,7 @@ public class REQITEMController {
 		}
 		
 		// TODO: file silahkan di cari yang mirip
+		// code here
 		
 		resp.setImage("http"+(request.isSecure()?"s":"")+"://"+request.getServerName() + ":" + request.getServerPort() + request.getContextPath() + "/files/" + file.getName() + "?filename=" + file.getName());
 		return resp;
@@ -162,7 +170,7 @@ public class REQITEMController {
 			@RequestParam("PROFITCENTER") Optional<String> PROFITCENTER,
 			@RequestParam("LABOFFICE") Optional<String> LABOFFICE,
 			@RequestParam("STATUS") Optional<String> STATUS,
-			@RequestParam("GAMBAR") Optional<MultipartFile> GAMBAR
+			@RequestParam("GAMBAR") MultipartFile[] GAMBAR
 			) throws Exception {
 		
 		ResponseWrapper resp = new ResponseWrapper();
@@ -195,7 +203,39 @@ public class REQITEMController {
 		if(PROFITCENTER.isPresent()) data.setPROFITCENTER(PROFITCENTER.get());
 		if(LABOFFICE.isPresent()) data.setLABOFFICE(LABOFFICE.get());
 		if(STATUS.isPresent()) data.setSTATUS(STATUS.get());
-		//if(GAMBAR.isPresent()) data.setGAMBAR(GAMBAR.get());
+//		if(GAMBAR.isPresent()) { unused
+//			final long date = new Date().getTime();
+//			final String ext = FilenameUtils.getExtension(GAMBAR.get().getOriginalFilename());
+//			final String filename = "tmp-"+date+"."+ext;
+//			storageService.store(GAMBAR.get(), filename);
+//			data.setGAMBAR(filename);
+//		}
+		
+		
+		List<String> listKeepImage = new ArrayList<String>();
+		for(MultipartFile file : GAMBAR) {
+			if(file.getSize() == 0) {
+				listKeepImage.add("'"+file.getOriginalFilename()+"'");
+			}
+		}
+		
+		QueryParameter paramDelete = new QueryParameter();
+		paramDelete.setClause(paramDelete.getClause() + " AND " + REQITEMIMAGE.COLUMN_REQITEM + " = '" + data.getLINENUM() + "'");
+		if(listKeepImage.size() > 0) paramDelete.setClause(paramDelete.getClause() + " AND " + REQITEMIMAGE.COLUMN_IMAGE + " NOT IN (" + String.join(",", listKeepImage) + ")");
+		if(reqItemMapper.getEntity(String.valueOf(data.getLINENUM())).getLISTREQITEMIMAGE().size() == 0) paramDelete.setClause(paramDelete.getClause() + " AND true = false");
+		List<REQITEMIMAGE> listDeleteREQITEMIMAGE = reqItemImageMapper.getList(paramDelete);
+		reqItemImageMapper.deleteBatch(paramDelete);
+		
+		for(MultipartFile file : GAMBAR) {
+			if(file.getSize() != 0) {
+				final Long id = Long.parseLong(reqItemImageMapper.getNewId());
+				final String ext = FilenameUtils.getExtension(file.getOriginalFilename());
+				final String filename = id+"."+ext;
+				storageService.store(file, filename);
+				System.out.println(file.getOriginalFilename());
+				reqItemImageMapper.insert(new REQITEMIMAGE(id, data.getLINENUM(), file.getOriginalFilename(), filename));
+			}
+		}
 		
 		boolean pass = true;
 		if(data.getCOMPANY() == null) {
@@ -217,6 +257,11 @@ public class REQITEMController {
 		}
 		
 		resp.setData(data);
+		
+		// hapus gambar secara permanen
+		for(REQITEMIMAGE rEQITEMIMAGE : listDeleteREQITEMIMAGE) {
+			storageService.delete(rEQITEMIMAGE.getIMAGE());
+		}
 		
 		return new ResponseEntity<ResponseWrapper>(resp, HttpStatus.valueOf(resp.getCode()));
 	}

@@ -26,12 +26,12 @@
 	</select>
 
 	<select id="getList" resultMap="POTEXT180_map" parameterType="param">
-	SELECT * FROM (<include refid="qry"/>) AS t
-	<if test="clause != null"> WHERE ${clause} </if>
-	<if test="order != null"> ORDER BY ${order} </if>
-	<if test="order == null"> ORDER BY KIMAP </if>
-	<if test="limit != null"> LIMIT ${limit} </if>
-	<if test="offset != null"> OFFSET ${offset} </if>
+		SELECT * FROM (<include refid="qry"/>) AS t
+		<if test="clause != null"> WHERE ${clause} </if>
+		<if test="order != null"> ORDER BY ${order} </if>
+		<if test="order == null"> ORDER BY KIMAP </if>
+		<if test="limit != null"> LIMIT ${limit} </if>
+		<if test="offset != null"> OFFSET ${offset} </if>
 	</select>
 
 	<select id="getEntity" resultMap="POTEXT180_map" parameterType="string">

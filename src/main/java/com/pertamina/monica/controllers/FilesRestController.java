@@ -41,31 +41,30 @@ public class FilesRestController {
 		
 		System.out.println(id);
 		
-			String ext = FilenameUtils.getExtension(filename);
-			String type = "application";
-			if(Arrays.asList(FileTypeSupport.IMAGE.extensions()).contains(ext)) {
-				type="image";
-				if(preview.isPresent()) {
-					id = "small_"+id;
-				}
+		String ext = FilenameUtils.getExtension(filename);
+		String type = "application";
+		if(Arrays.asList(FileTypeSupport.IMAGE.extensions()).contains(ext)) {
+			type="image";
+			if(preview.isPresent()) {
+				id = "small_"+id;
+			}
+		}else {
+			if(preview.isPresent() || filename.contains(".pdf")) {
+				response.setHeader("Content-Disposition", "filename=\""+filename.replaceAll("[^a-zA-Z0-9 .-]", "")+"\"");
 			}else {
-				if(preview.isPresent() || filename.contains(".pdf")) {
-					response.setHeader("Content-Disposition", "filename=\""+filename.replaceAll("[^a-zA-Z0-9 .-]", "")+"\"");
-				}else {
-					response.setHeader("Content-Disposition", "attachment; filename=\""+filename.replaceAll("[^a-zA-Z0-9 .-]", "")+"\"");
-				}
+				response.setHeader("Content-Disposition", "attachment; filename=\""+filename.replaceAll("[^a-zA-Z0-9 .-]", "")+"\"");
 			}
-			response.setContentType(type+"/"+ext);
-			
-			File file = fileSystemService.load(id + "." + ext);
-			FileInputStream fileInputStream = new FileInputStream(file);
-			OutputStream responseOutputStream = response.getOutputStream();
-			int bytes;
-			while ((bytes = fileInputStream.read()) != -1) {
-				responseOutputStream.write(bytes);
-			}
-			fileInputStream.close();
+		}
+		response.setContentType(type+"/"+ext);
 		
-		
+		File file = fileSystemService.load(id + "." + ext);
+		FileInputStream fileInputStream = new FileInputStream(file);
+		OutputStream responseOutputStream = response.getOutputStream();
+		int bytes;
+		while ((bytes = fileInputStream.read()) != -1) {
+			responseOutputStream.write(bytes);
+		}
+		fileInputStream.close();
+	
 	}
 }

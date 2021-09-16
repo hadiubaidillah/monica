@@ -71,16 +71,18 @@ function display(page=1,limit=2) {
 					html += '</div>';
 				}
 				else if(mode == 'images') {
-					html += '<div class="col">'; //
-						html += '<a href="'+value.gambar+'?id='+value.linenum+'" class="card border-0 elem" title="'+value.shorttext+'" data-lcl-author="'+value.company+'" data-lcl-txt="lorem ipsum dolor sit amet">';
-							html += '<img src="'+value.gambar+'" class="card-img-top shadow-smx" alt="'+value.shorttext+'" style="border: 1px solid rgba(0,0,0,.07);">';
-							html += '<span class="selecter" title="'+value.shorttext+'" title_attr>';
-							html += '<div class="card-body p-0 pt-1" onclick="location=\''+url_item+'?id='+value.linenum+'\'">';
-								html += '<p class="card-text my-0" style="font-size: 12px;">'+value.shorttext+'</p>';
-								html += '<p class="card-text mx-0" style="font-size: 11px;">Company: '+value.company+'</p>';
-							html += '</div>';
-						html += '</a>';
-					html += '</div>';
+					$.each(value.listreqitemimage,function(key,image){
+						html += '<div class="col">';
+							html += '<a href="'+ctx+'/files/'+image.image+'?filename='+image.name+'&id='+image.id+'" class="card border-0 elem" title="'+value.shorttext+'" data-lcl-author="'+value.company+'" data-lcl-txt="lorem ipsum dolor sit amet">';
+								html += '<img src="'+ctx+'/files/'+image.image+'?filename='+image.name+'" class="card-img-top shadow-smx" alt="'+value.shorttext+'" style="border: 1px solid rgba(0,0,0,.07);">';
+								html += '<span class="selecter" title="'+value.shorttext+'" title_attr>';
+								html += '<div class="card-body p-0 pt-1" onclick="location=\''+url_item+'?id='+value.linenum+'\'">';
+									html += '<p class="card-text my-0" style="font-size: 12px;">'+value.shorttext+'</p>';
+									html += '<p class="card-text mx-0" style="font-size: 11px;">Company: '+value.company+'</p>';
+								html += '</div>';
+							html += '</a>';
+						html += '</div>';
+					});
 				}
 			});
 			$('#list').html(html);

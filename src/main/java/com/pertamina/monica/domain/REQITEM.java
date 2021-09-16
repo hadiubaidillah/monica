@@ -1,5 +1,8 @@
 package com.pertamina.monica.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class REQITEM {
 
 	public static final String COLUMN_LINENUM = "LINENUM";
@@ -21,7 +24,6 @@ public class REQITEM {
 	public static final String COLUMN_PROFITCENTER = "PROFITCENTER";
 	public static final String COLUMN_LABOFFICE = "LABOFFICE";
 	public static final String COLUMN_STATUS = "STATUS";
-	public static final String COLUMN_GAMBAR = "GAMBAR";
 	
 	private Long LINENUM;
 	private String COMPANY;
@@ -42,7 +44,8 @@ public class REQITEM {
 	private String PROFITCENTER;
 	private String LABOFFICE;
 	private String STATUS;
-	private String GAMBAR;
+	
+	private List<REQITEMIMAGE> LISTREQITEMIMAGE = new ArrayList<REQITEMIMAGE>();
 	
 	public REQITEM() {
 	
@@ -204,12 +207,12 @@ public class REQITEM {
 		STATUS = sTATUS;
 	}
 
-	public String getGAMBAR() {
-		return GAMBAR;
+	public List<REQITEMIMAGE> getLISTREQITEMIMAGE() {
+		return LISTREQITEMIMAGE;
 	}
 
-	public void setGAMBAR(String gAMBAR) {
-		GAMBAR = gAMBAR;
+	public void setLISTREQITEMIMAGE(List<REQITEMIMAGE> lISTREQITEMIMAGE) {
+		LISTREQITEMIMAGE = lISTREQITEMIMAGE;
 	}
 	
 }
