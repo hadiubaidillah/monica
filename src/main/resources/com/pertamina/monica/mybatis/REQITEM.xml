@@ -9,6 +9,7 @@
 		<id property="LINENUM" column="LINENUM" />
 		<!-- <result property="COMPANY" column="COMPANY" /> ini contoh kalau mau satu satu di masukan dari column ke property, kalo satu satu ga usah pakai autoMapping -->
 		<!-- <association property="POTEXT180" resultMap="com.pertamina.monica.mapper.POTEXT180Mapper.POTEXT180_map" /> ini contoh one to one -->
+		<association property="REQUSER" resultMap="com.pertamina.monica.mapper.REQUSERMapper.REQUSER_map" />
 		<collection property="LISTREQITEMIMAGE" resultMap="com.pertamina.monica.mapper.REQITEMIMAGEMapper.REQITEMIMAGE_map" /> <!-- ini contoh one to many -->
 	</resultMap>
 
@@ -18,7 +19,7 @@
 
 	<sql id="qry">
 		SELECT * FROM REQITEM a
-		<!-- LEFT JOIN POTEXT180 b ON a.POTEXT = b.KIMAP -->
+		LEFT JOIN REQUSER b ON a.REQUESTEDBY = b.ID_REQUSER
 	</sql>
 
 	<select id="getCount" resultType="long" parameterType="string" >

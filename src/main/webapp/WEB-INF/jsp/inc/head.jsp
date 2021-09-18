@@ -34,6 +34,14 @@
 		@include media-breakpoint-only(lg) { column-count: 4; }
 		@include media-breakpoint-only(xl) { column-count: 5; }
 	}
+	#formSearch input:focus, #formSearch button.btn:focus, #formSearch input.form-control:focus {
+		z-index: 0;
+		outline:none !important;
+		outline-width: 0 !important;
+		box-shadow: none;
+		-moz-box-shadow: none;
+		-webkit-box-shadow: none;
+	}
 	</style>
 	<c:if test="${mode eq 'images'}">
 		<style>

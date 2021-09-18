@@ -1,4 +1,4 @@
-const url_item = 'item';
+const url_result = 'result';
 
 function ajaxGET(url, fnsuccess, fnerror){
 	$.ajax({
@@ -55,41 +55,9 @@ function ajaxPOST(url,obj,fnsuccess, fnerror){
 	});
 }
 
-function createPagination(id, func, pagination) {
-	//console.log(pagination);
-	var html = '';
-	$('#'+id).text('');
-	if (pagination.rowcount == 0) {
-		html += '<li class="page-item disabled"><a class="page-link" href="javascript:void(0)"><span class="text-muted" aria-hidden="true">&laquo;</span></a></li>';
-		html += '<li class="page-item disabled"><a class="page-link" href="javascript:void(0)"><span class="text-muted" aria-hidden="true">&raquo;</span></a></li>';
-	} else {
-		if (pagination.activepage == 1) {
-			html += '<li class="page-item disabled"><a class="page-link" href="javascript:void(0)"><span class="text-muted" aria-hidden="true">&laquo;</span></a></li>';
-		} else {
-			html += '<li class="page-item"><a class="page-link" href="javascript:'+func+'('+(pagination.activepage - 1)+')" aria-label="Previous"> <span aria-hidden="true">&laquo;</span> </a></li>';
-		}
-		var i;
-		for (var i = 1; i <= pagination.pagecount; i++) {
-			if (pagination.activepage == i) {
-				html += '<li class="page-item active"><a class="page-link" href="javascript:'+func+'(' + i + ')">' + i + '</a></li>';
-			} else {
-				html += '<li class="page-item"><a class="page-link" href="javascript:'+func+'(' + i + ')">' + i + '</a></li>';
-			}
-		}
-		if (pagination.activepage == pagination.pagecount) {
-			html += '<li class="page-item disabled"><a class="page-link" href="javascript:void(0)"><span class="text-muted" aria-hidden="true">&raquo;</span></a></li>';
-		} else {
-			html += '<li class="page-item"><a class="page-link" href="javascript:'+func+'(' +(pagination.activepage + 1) + ')" aria-label="Next"> <span aria-hidden="true">&raquo;</span> </a></li>';
-		}
-	}
-	$('#'+id).append(html);
-}
-
 function createPagination_v2(id, func, pagination) {
 	const max = (pagination.pagecount>10? ( pagination.activepage + 4 <= pagination.pagecount ? pagination.activepage + 4 : pagination.pagecount) : pagination.pagecount);
 	const min = (max - 10) < 1 ? 1 : max - 9;
-	//console.log('min: ', min);
-	//console.log('max: ', max);
 	var html = '';
 	for(var i = min ; i <= max ; i ++) { html += '<td class="pageItem '+(pagination.activepage==i?'active':'')+'"><a href="javascript:'+func+'(' + (i) + ')" class="d-flex flex-column"><span></span><span>'+i+'</span></a></td>'; }
 	$('#'+id).html(html);

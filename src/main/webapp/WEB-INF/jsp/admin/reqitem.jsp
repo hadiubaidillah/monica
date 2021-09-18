@@ -86,7 +86,7 @@
 						</div>
 						<div class="col-md-6">
 							<div class="form-group">
-								<label>REQUESTED BY <span class="text-danger">*</span> <span class="text-primary">(ComboBox)</span></label>
+								<label>REQUESTED BY <span class="text-danger">*</span> <span class="text-primary">(ComboBox dengan Database)</span></label>
 								<!-- <input type="text" name="REQUESTEDBY" class="form-control" /> -->
 								<select name="REQUESTEDBY" class="form-control select2">
 									<option>-- Select Requested By --</option>

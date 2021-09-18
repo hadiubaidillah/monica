@@ -45,6 +45,7 @@ public class REQITEM {
 	private String LABOFFICE;
 	private String STATUS;
 	
+	private REQUSER REQUSER = new REQUSER();
 	private List<REQITEMIMAGE> LISTREQITEMIMAGE = new ArrayList<REQITEMIMAGE>();
 	
 	public REQITEM() {
@@ -205,6 +206,14 @@ public class REQITEM {
 
 	public void setSTATUS(String sTATUS) {
 		STATUS = sTATUS;
+	}
+
+	public REQUSER getREQUSER() {
+		return REQUSER;
+	}
+
+	public void setREQUSER(REQUSER rEQUSER) {
+		REQUSER = rEQUSER;
 	}
 
 	public List<REQITEMIMAGE> getLISTREQITEMIMAGE() {

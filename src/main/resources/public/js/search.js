@@ -24,7 +24,7 @@ $(document).ready(function(){
 });
 
 function changeHrefInLightbox(vars={}) {
-	$('[id=lcl_txt]').css('cursor', 'pointer').attr('onclick', "location='"+url_item+"?id="+vars.elems[vars.elem_index].src.split('?id=')[1]+"'");
+	$('[id=lcl_txt]').css('cursor', 'pointer').attr('onclick', "location='"+url_result+"?id="+vars.elems[vars.elem_index].src.split('&id=')[1]+"'");
 }
 
 function getParam(page=1) {
@@ -42,7 +42,7 @@ function display(page=1,limit=2) {
 			$.each(response.data,function(key,value){
 				if(mode == 'words') {
 					html += '<div class="mb-5">';
-						html += '<div class="websiteTitle"><a href="'+url_item+'?id='+value.linenum+'"><h5>'+value.shorttext+'</h5></a></div>';
+						html += '<div class="websiteTitle"><a href="'+url_result+'?id='+value.linenum+'"><h5>'+value.shorttext+'</h5></a></div>';
 						html += '<span class="abstract">';
 							html += 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ac ultrices felis. Mauris varius eu lacus vitae sollicitudin. In ac maximus diam. Nulla diam arcu, tristique sit amet porttitor a, bibendum id libero.';
 						html += '</span>';
@@ -73,10 +73,10 @@ function display(page=1,limit=2) {
 				else if(mode == 'images') {
 					$.each(value.listreqitemimage,function(key,image){
 						html += '<div class="col">';
-							html += '<a href="'+ctx+'/files/'+image.image+'?filename='+image.name+'&id='+image.id+'" class="card border-0 elem" title="'+value.shorttext+'" data-lcl-author="'+value.company+'" data-lcl-txt="lorem ipsum dolor sit amet">';
+							html += '<a href="'+ctx+'/files/'+image.image+'?filename='+image.name+'&id='+image.id+'" class="card border-0 elem" title="'+value.shorttext+'" data-lcl-author="'+value.company+'" data-lcl-txt="ini adalah deskripsi statis yang ada di javascript search.js">';
 								html += '<img src="'+ctx+'/files/'+image.image+'?filename='+image.name+'" class="card-img-top shadow-smx" alt="'+value.shorttext+'" style="border: 1px solid rgba(0,0,0,.07);">';
 								html += '<span class="selecter" title="'+value.shorttext+'" title_attr>';
-								html += '<div class="card-body p-0 pt-1" onclick="location=\''+url_item+'?id='+value.linenum+'\'">';
+								html += '<div class="card-body p-0 pt-1" onclick="location=\''+url_result+'?id='+value.linenum+'\'">';
 									html += '<p class="card-text my-0" style="font-size: 12px;">'+value.shorttext+'</p>';
 									html += '<p class="card-text mx-0" style="font-size: 11px;">Company: '+value.company+'</p>';
 								html += '</div>';

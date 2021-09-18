@@ -17,12 +17,14 @@
 		<typeAlias alias="POTEXT180" type="com.pertamina.monica.domain.POTEXT180" />
 		<typeAlias alias="REQITEM" type="com.pertamina.monica.domain.REQITEM" />
 		<typeAlias alias="REQITEMIMAGE" type="com.pertamina.monica.domain.REQITEMIMAGE" />
+		<typeAlias alias="REQUSER" type="com.pertamina.monica.domain.REQUSER" />
 	</typeAliases>
 
 	<mappers>
 		<mapper resource="com/pertamina/monica/mybatis/POTEXT180.xml" />
 		<mapper resource="com/pertamina/monica/mybatis/REQITEM.xml" />
 		<mapper resource="com/pertamina/monica/mybatis/REQITEMIMAGE.xml" />
+		<mapper resource="com/pertamina/monica/mybatis/REQUSER.xml" />
 	</mappers>
 
 </configuration>

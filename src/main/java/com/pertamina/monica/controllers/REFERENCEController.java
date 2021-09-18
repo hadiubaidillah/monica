@@ -3,17 +3,23 @@ package com.pertamina.monica.controllers;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.pertamina.monica.helper.QueryParameter;
 import com.pertamina.monica.helper.ResponseWrapper;
+import com.pertamina.monica.mapper.REQUSERMapper;
 
 @RestController
 @RequestMapping("/REFERENCE")
 public class REFERENCEController {
+
+	@Autowired
+	private REQUSERMapper reqUserMapper;
 	
 	@RequestMapping(value="/POTEXT", method = RequestMethod.GET, produces = "application/json")
 	@Transactional(rollbackFor=Exception.class, propagation = Propagation.REQUIRED)
@@ -43,14 +49,15 @@ public class REFERENCEController {
 	@RequestMapping(value="/REQUESTEDBY", method = RequestMethod.GET, produces = "application/json")
 	@Transactional(rollbackFor=Exception.class, propagation = Propagation.REQUIRED)
 	public ResponseWrapper getREQUESTEDBY() throws Exception {
-		List<String> data = new ArrayList<String>();
-		data.add("Asep");
-		data.add("Bayu");
-		data.add("Cecep");
-		data.add("Dicky");
-		data.add("Erik");
-		data.add("Fajar");
-		return new ResponseWrapper(data);
+//		List<String> data = new ArrayList<String>();
+//		data.add("Asep");
+//		data.add("Bayu");
+//		data.add("Cecep");
+//		data.add("Dicky");
+//		data.add("Erik");
+//		data.add("Fajar");
+//		return new ResponseWrapper(data);
+		return new ResponseWrapper(reqUserMapper.getList(new QueryParameter()));
 	}
 	
 }

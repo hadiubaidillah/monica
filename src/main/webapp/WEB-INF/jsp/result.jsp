@@ -59,7 +59,7 @@
 </div>
 
 <%@include file="inc/footer.jsp"%>
-<script type="text/javascript" src="${contextPath}/js/item.js"></script>
+<script type="text/javascript" src="${contextPath}/js/result.js"></script>
 
 </body>
 </html>

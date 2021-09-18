@@ -20,28 +20,30 @@
 				<%@include file="inc/account.jsp"%>
 			</div>
 			<div class="col-lg-10 col-sm-12 ps-4 pt-lg-0 pt-3">
-				<div class="searchInput input-group rounded-pill overflow-hidden">
-					<c:if test="${image ne null}">
-						<div class="p-1" style="border-radius: 50rem!important; margin: 2px 3px 4px 2px; background: #D9E7FE; border: 1px solid #9cb0d8;">
-							<img src="${image}" class="ps-3" style="height: 33px;" />
-							<a href="javascript:void(0)" onclick="$(this).parent().remove();"><i class="fas fa-times px-3 mt-2"></i></a>
-						</div>
-					</c:if>
-					<input type="text" id="txtSearch" class="form-control border-0 ps-4" value="${term}">
-					<c:if test="${mode eq 'words'}">
-						<button class="btn border-0 pe-3" type="button" onclick="search();">
-							<i class="fas fa-search border-start px-3 pt-2" style="height: 30px"></i>
-						</button>
-					</c:if>
-					<c:if test="${mode eq 'images'}">
-						<button class="btn border-0 ps-0" type="button" onclick="$('#modalSearchByImage').modal('show');">
-							<i class="fas fa-camera border-start ps-3 pe-0 pt-2" style="height: 30px"></i>
-						</button>
-						<button class="btn border-0 pe-3" type="button" onclick="search();">
-							<i class="fas fa-search ps-0 pe-3 pt-2" style="height: 30px"></i>
-						</button>
-					</c:if>
-				</div>
+				<form id="formSearch" onsubmit="return false;">
+					<div class="searchInput input-group rounded-pill overflow-hidden">
+						<c:if test="${image ne null}">
+							<div class="p-1" style="border-radius: 50rem!important; margin: 2px 3px 4px 2px; background: #D9E7FE; border: 1px solid #9cb0d8;">
+								<img src="${image}" class="ps-3" style="height: 33px;" />
+								<a href="javascript:void(0)" onclick="$(this).parent().remove();"><i class="fas fa-times px-3 mt-2"></i></a>
+							</div>
+						</c:if>
+						<input type="text" id="txtSearch" class="form-control border-0 ps-4" value="${term}">
+						<c:if test="${mode eq 'words'}">
+							<button class="btn border-0 pe-3" type="button" onclick="search();">
+								<i class="fas fa-search border-start px-3 pt-2" style="height: 30px"></i>
+							</button>
+						</c:if>
+						<c:if test="${mode eq 'images'}">
+							<button class="btn border-0 ps-0" type="button" onclick="$('#modalSearchByImage').modal('show');">
+								<i class="fas fa-camera border-start ps-3 pe-0 pt-2" style="height: 30px"></i>
+							</button>
+							<button class="btn border-0 pe-3" type="button" onclick="search();">
+								<i class="fas fa-search ps-0 pe-3 pt-2" style="height: 30px"></i>
+							</button>
+						</c:if>
+					</div>
+				</form>
 			</div>
 		</div>
 		<div class="col-lg-5 col-sm-12 p-0 d-none d-lg-block">
@@ -111,15 +113,6 @@
 	<div class="row justify-content-center mt-4 mb-4 mb-lg-5"> <!-- fixed-bottom -->
 		<div class="col-sm-6 col-lg-5 ps-5 ms-5 ps-lg-0 ms-lg-0 offset-lg-1 offset-sm-6">
 			<div class="pagination">
-				<%-- <nav class="m-auto"> Basic Pagination V1
-					<ul id="pagination" class="pagination m-auto">
-						<li class="page-item disabled"><a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a></li>
-						<li class="page-item"><a class="page-link" href="#">1</a></li>
-						<li class="page-item active" aria-current="page"><a class="page-link" href="#">2</a></li>
-						<li class="page-item"><a class="page-link" href="#">3</a></li>
-						<li class="page-item"><a class="page-link" href="#">Next</a></li>
-					</ul>
-				</nav> --%>
 				<table class="table-borderless m-auto">
 					<tr>
 						<td class="prevPage">
@@ -132,7 +125,6 @@
 							</a>
 						</td>
 						<td id="pagination"></td>
-						<%-- <% for(int i = 1 ; i <= 10 ; i++) { %><td class="pageItem <%= i == 1 ? "active" : "" %>"><a href="#" class="d-flex flex-column"><span></span><span><%=i%></span></a></td><% } %> --%>
 						<td class="nextPage">
 							<a id="nextLink" href="#" class="d-flex flex-column">
 								<span class="nextPageLogo position-relative">

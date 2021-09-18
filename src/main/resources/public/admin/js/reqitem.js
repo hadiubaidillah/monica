@@ -33,8 +33,8 @@ function init(){
 	}
 
 	generateInputCOMPANY();
-	generateInputPOTEXT();
 	generateInputREQUESSTEDBY();
+	generateInputPOTEXT();
 	display();
 }
 
@@ -81,7 +81,7 @@ function generateInputREQUESSTEDBY() {
 	ajaxGET(url_reference+'/REQUESTEDBY',function(response){
 		if (response.code == 200) {
 			$.each(response.data, function(key, value) {
-				$('[name=REQUESTEDBY]').append(new Option(value, value));
+				$('[name=REQUESTEDBY]').append(new Option(value.name, value.id));
 			});
 		} else { alert("Connection error"); }
 	});
@@ -121,7 +121,7 @@ function display(page=1,limit=2){
 			row += '<td class="text-center">'+(((response.pagination.activepage-1)*response.pagination.rowcount)+(key+1))+'</td>';
 			row += '<td class="text-center">'+value.shorttext+'</td>';
 			row += '<td class="text-center">'+value.requesttype+'</td>';
-			row += '<td class="text-center">'+value.requestedby+'</td>';
+			row += '<td class="text-center">'+value.requser.name+'</td>';
 			row += '<td class="text-center">'+value.coding+'</td>';
 			row += '<td class="text-center">'+value.company+'</td>';
 			row += '<td class="text-center" nowrap>';
