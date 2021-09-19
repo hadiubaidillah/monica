@@ -39,7 +39,7 @@ public class FilesRestController {
 			HttpServletRequest request,
 			HttpServletResponse response) throws Exception{
 		
-		System.out.println(id);
+		//System.out.println(id);
 		
 		String ext = FilenameUtils.getExtension(filename);
 		String type = "application";

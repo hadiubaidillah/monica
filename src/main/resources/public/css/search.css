@@ -473,7 +473,7 @@ button.viewMore {
 
 /** Images **/
 
-#list .col a.card:hover {
+#list .col a:hover {
 	text-decoration: underline;
 }
 

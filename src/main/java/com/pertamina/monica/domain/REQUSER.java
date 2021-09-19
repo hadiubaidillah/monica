@@ -1,12 +1,9 @@
 package com.pertamina.monica.domain;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class REQUSER {
 
-	public static final String COLUMN_ID = "ID";
-	public static final String COLUMN_NAME = "NAME";
+	public static final String COLUMN_ID = "ID_REQUSER";
+	public static final String COLUMN_NAME = "NAME_REQUSER";
 	
 	private Long ID;
 	private String NAME;

@@ -54,7 +54,7 @@ function display(page=1,limit=2) {
 								html += '</div>';
 								html += '<div class="webDescription">';
 									html += '<em>Request By: </em>';
-									html += '<span>'+value.requestedby+'</span>';
+									html += '<span>'+value.requser.name+'</span>';
 								html += '</div>';
 							html += '</div>';
 							html += '<div class="col-6">';
@@ -73,13 +73,13 @@ function display(page=1,limit=2) {
 				else if(mode == 'images') {
 					$.each(value.listreqitemimage,function(key,image){
 						html += '<div class="col">';
-							html += '<a href="'+ctx+'/files/'+image.image+'?filename='+image.name+'&id='+image.id+'" class="card border-0 elem" title="'+value.shorttext+'" data-lcl-author="'+value.company+'" data-lcl-txt="ini adalah deskripsi statis yang ada di javascript search.js">';
+							html += '<a href="'+ctx+'/files/'+image.image+'?filename='+image.name+'&id='+value.linenum+'" class="card border-0 elem" title="'+value.shorttext+'" data-lcl-author="'+value.company+'" data-lcl-txt="ini adalah deskripsi statis yang ada di javascript search.js">';
 								html += '<img src="'+ctx+'/files/'+image.image+'?filename='+image.name+'" class="card-img-top shadow-smx" alt="'+value.shorttext+'" style="border: 1px solid rgba(0,0,0,.07);">';
-								html += '<span class="selecter" title="'+value.shorttext+'" title_attr>';
-								html += '<div class="card-body p-0 pt-1" onclick="location=\''+url_result+'?id='+value.linenum+'\'">';
-									html += '<p class="card-text my-0" style="font-size: 12px;">'+value.shorttext+'</p>';
-									html += '<p class="card-text mx-0" style="font-size: 11px;">Company: '+value.company+'</p>';
-								html += '</div>';
+							html += '</a>';
+							html += '<span class="selecter" title="'+value.shorttext+'" title_attr>';
+							html += '<a class="card-body p-0 pt-1" href="'+url_result+'?id='+value.linenum+'">';
+								html += '<p class="card-text my-0" style="font-size: 12px;">'+value.shorttext+'</p>';
+								html += '<p class="card-text mx-0" style="font-size: 11px;">Company: '+value.company+'</p>';
 							html += '</a>';
 						html += '</div>';
 					});

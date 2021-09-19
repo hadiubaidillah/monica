@@ -158,6 +158,7 @@ function reset(){
 	public_list_GAMBAR = [];
 	$('#frmInput').trigger('reset');
 	$('[name=COMPANY]').select2();
+	$('[name=CODING]').prop('checked', false);
 	$('[class=pip]').remove();
 }
 
@@ -181,7 +182,10 @@ function edit(id){
 		$('[name=OLDITEMNUM]').val(response.data.olditemnum);
 		$('[name=MAINGROUP]').val(response.data.maingroup);
 		$('[name=NOUNMODIFIER]').val(response.data.nounmodifier);
-		$('[name=CODING]').val(response.data.coding);
+		//$('[name=CODING]').val(response.data.coding); used, dipakai tapi sementara untuk contoh checkbox dulu
+		for (var i = 0; i < response.data.coding.length; i++) {
+			$('[name=CODING][value='+response.data.coding.charAt(i)+']').prop('checked', true);
+		}
 		$('[name=SHORTTEXT]').val(response.data.shorttext);
 		$('[name=ISSPAREPART]').val(response.data.issparepart);
 		//$('[name=POTEXT]').val(response.data.potext); unused

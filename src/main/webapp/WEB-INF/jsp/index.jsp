@@ -19,7 +19,7 @@
 		</div>
 		<div class="col-lg-5 col-sm-12 p-0">
 			<div class="d-flex align-items-center justify-content-center justify-content-lg-end">
-				<a href="request" class="text-muted pe-4 pt-1">Request</a>
+				<a href="admin/reqitem" class="text-muted pe-4 pt-1">Request</a>
 				<c:if test="${mode eq 'words'}">
 					<a href="?mode=images" class="text-muted pe-4 pt-1">Images</a>
 				</c:if>

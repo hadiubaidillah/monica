@@ -47,14 +47,20 @@
 		<h1 class="mt-0 mt-lg-5 mb-3" id="title"></h1>
 		<div class="row">
 			<div class="col-6">
-				<div class="webDescription"><em>Request Type: </em><span>NEW KIMAP</span></div>
-				<div class="webDescription"><em>Request By: </em><span>DICKY 1</span></div>
+				<div class="webDescription"><em>Request Type: </em><span id="requesttype"></span></div>
+				<div class="webDescription"><em>Request By: </em><span id="requestby"></span></div>
 			</div>
 			<div class="col-6">
-				<div class="webDescription"><em>Coding: </em><span>Z41516</span></div>
-				<div class="webDescription"><em>Company: </em><span>2210</span></div>
+				<div class="webDescription"><em>Coding: </em><span id="coding"></span></div>
+				<div class="webDescription"><em>Company: </em><span id="company"></span></div>
 			</div>
 		</div>
+		<div class="row mt-5">
+			<div class="col-6">
+				<div class="webDescription"><em>Images: </em></div>
+			</div>
+		</div>
+		<div id="images"></div>
 	</div>
 </div>
 

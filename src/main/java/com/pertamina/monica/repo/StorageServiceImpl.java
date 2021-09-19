@@ -21,7 +21,7 @@ public class StorageServiceImpl implements StorageService {
 
 	@Override
 	public File load(String filename)	throws Exception {
-		System.out.println("load from file system");
+		//System.out.println("load from file system");
 		
 		File file = new File(appFolder + filename);
 		if(!file.exists()) {

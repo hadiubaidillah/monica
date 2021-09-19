@@ -127,8 +127,14 @@
 						</div>
 						<div class="col-md-6">
 							<div class="form-group">
-								<label>CODING <span class="text-danger">*</span></label>
-								<input type="text" name="CODING" class="form-control" />
+								<label>CODING <span class="text-danger">*</span> <span class="text-primary">(CheckBox)</span></label><br/>
+								<!-- <input type="text" name="CODING" class="form-control" /> -->
+								<input type="checkbox" name="CODING" value="A" /> A
+								<input type="checkbox" name="CODING" value="B" /> B
+								<input type="checkbox" name="CODING" value="C" /> C
+								<input type="checkbox" name="CODING" value="D" /> D
+								<input type="checkbox" name="CODING" value="E" /> E
+								<input type="checkbox" name="CODING" value="F" /> F
 							</div>
 						</div>
 						<div class="col-md-6">
@@ -147,7 +153,7 @@
 						</div>
 						<div class="col-md-12">
 							<div class="form-group">
-								<label>PO TEXT <span class="text-danger">*</span></label>
+								<label>PO TEXT <span class="text-danger">*</span> <span class="text-primary">(Grid/Table)</span></label>
 								<%-- <input type="text" name="POTEXT" class="form-control" /> --%>
 								<table id="tbl-po" class="table table-bordered table-striped table-hover">
 									<thead>
@@ -211,7 +217,7 @@
 						</div>
 						<div class="col-md-12">
 							<div class="form-group">
-								<label>GAMBAR <span class="text-danger">*</span></label><br/>
+								<label>IMAGES <span class="text-danger">*</span></label> <span class="text-primary">(One To Many dengan Database)</span><br/>
 								<!-- <input type="text" name="GAMBAR" class="form-control" /> -->
 								<input type="file" id="multiple_files" multiple accept="image/*" class="pull-left" style="width: 120px; color: transparent;" />
 								<label for="multiple_files" class="pull-left" style="padding-top: 5px;">No file chosen</label>

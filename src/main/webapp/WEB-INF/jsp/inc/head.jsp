@@ -29,20 +29,6 @@
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lc-lightbox-lite@1.2.9/skins/minimal.css">
 	<link rel="stylesheet" href="${contextPath}/css/style.css">
 	
-	<style>
-	.card-columns {
-		@include media-breakpoint-only(lg) { column-count: 4; }
-		@include media-breakpoint-only(xl) { column-count: 5; }
-	}
-	#formSearch input:focus, #formSearch button.btn:focus, #formSearch input.form-control:focus {
-		z-index: 0;
-		outline:none !important;
-		outline-width: 0 !important;
-		box-shadow: none;
-		-moz-box-shadow: none;
-		-webkit-box-shadow: none;
-	}
-	</style>
 	<c:if test="${mode eq 'images'}">
 		<style>
 			.main-container__image span { background-image: url('${contextPath}/images/monica-images.jpeg'); }

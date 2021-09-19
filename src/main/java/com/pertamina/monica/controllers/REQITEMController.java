@@ -26,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.pertamina.monica.domain.REQITEM;
 import com.pertamina.monica.domain.REQITEMIMAGE;
+import com.pertamina.monica.domain.REQUSER;
 import com.pertamina.monica.helper.Pagination;
 import com.pertamina.monica.helper.QueryParameter;
 import com.pertamina.monica.helper.ResponseWrapper;
@@ -64,19 +65,23 @@ public class REQITEMController {
 		QueryParameter param = new QueryParameter();
 		param.setClause(param.getClause() + " AND ( ");
 		param.setClause(param.getClause() + REQITEM.COLUMN_REQUESTEDBY + " LIKE '%"+term+"%' OR ");
-		param.setClause(param.getClause() + REQITEM.COLUMN_REQUESTTYPE + " LIKE '%"+term+"%' OR ");
+		//param.setClause(param.getClause() + REQITEM.COLUMN_REQUESTTYPE + " LIKE '%"+term+"%' OR "); udah ga dipake karena pakai one to one
+		param.setClause(param.getClause() + REQUSER.COLUMN_NAME + " LIKE '%"+term+"%' OR ");
 		param.setClause(param.getClause() + REQITEM.COLUMN_CODING + " LIKE '%"+term+"%' OR ");
 		param.setClause(param.getClause() + REQITEM.COLUMN_COMPANY + " LIKE '%"+term+"%' ");
 		param.setClause(param.getClause() + " ) ");
 		
-		if(time.isPresent() && time.get().equals("any-time") == false) {
-			param.setClause(param.getClause() + " AND date_added NOW() - 1");
-			if(time.get().equals("custom-range") && min.isPresent() && max.isPresent()) {
-				param.setClause(param.getClause() + " AND date_added BETWEEN "+min+" AND " + max +"");
-			}
-		}
+//		TODO: dibawah ini harus disesuaikan dengan pengaturan waktu
+//		if(time.isPresent() && time.get().equals("any-time") == false) {
+//			param.setClause(param.getClause() + " AND date_added NOW() - 1");
+//			if(time.get().equals("custom-range") && min.isPresent() && max.isPresent()) {
+//				param.setClause(param.getClause() + " AND date_added BETWEEN "+min+" AND " + max +"");
+//			}
+//		}
 		
 		final long count = reqItemMapper.getCount(param);
+		
+		if(mode.equals("images")) param.setClause(param.getClause() + " AND " + REQITEMIMAGE.COLUMN_ID + " IS NOT NULL");
 		
 		if(limit.isPresent()) { param.setLimit(limit.get()); }
 		else { limit = Optional.of(10); param.setLimit(limit.get()); } // pengaturan limit
@@ -158,7 +163,8 @@ public class REQITEMController {
 			@RequestParam("OLDITEMNUM") Optional<String> OLDITEMNUM,
 			@RequestParam("MAINGROUP") Optional<String> MAINGROUP,
 			@RequestParam("NOUNMODIFIER") Optional<String> NOUNMODIFIER,
-			@RequestParam("CODING") Optional<String> CODING,
+			//@RequestParam("CODING") Optional<String> CODING,
+			@RequestParam("CODING") Optional<List<String>> CODING,
 			@RequestParam("SHORTTEXT") Optional<String> SHORTTEXT,
 			@RequestParam("ISSPAREPART") Optional<String> ISSPAREPART,
 			@RequestParam("POTEXT") Optional<String> POTEXT,
@@ -191,7 +197,8 @@ public class REQITEMController {
 		if(OLDITEMNUM.isPresent()) data.setOLDITEMNUM(OLDITEMNUM.get());
 		if(MAINGROUP.isPresent()) data.setMAINGROUP(MAINGROUP.get());
 		if(NOUNMODIFIER.isPresent()) data.setNOUNMODIFIER(NOUNMODIFIER.get());
-		if(CODING.isPresent()) data.setCODING(CODING.get());
+		//if(CODING.isPresent()) data.setCODING(CODING.get());
+		if(CODING.isPresent()) data.setCODING(String.join("", CODING.get()));
 		if(SHORTTEXT.isPresent()) data.setSHORTTEXT(SHORTTEXT.get());
 		if(ISSPAREPART.isPresent()) data.setISSPAREPART(ISSPAREPART.get());
 		if(POTEXT.isPresent()) data.setPOTEXT(POTEXT.get());

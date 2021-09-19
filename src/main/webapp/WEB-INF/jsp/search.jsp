@@ -70,7 +70,7 @@
 	</div>
 </header>
 
-<div class="container-fluid p-0 overflow-hidden">
+<div class="container-fluid p-0 pb-5 overflow-hidden">
 	<div class="row row col-lg-7 col-sm-12">
 		<div class="col-lg-10 col-sm-12 offset-md-2 px-5">
 			<div class="small text-muted mt-2 mb-3" id="about-search" style="display:${timeExist?'none':'block'}">About <span id="count" class="text-muted">~</span> results (<span id="time" class="text-muted">~</span> seconds)</div>
